@@ -15,6 +15,8 @@ navigationUiKtx = "2.6.0"
 runtimeAndroid = "1.7.6"
 
 [libraries]
+glide = { group = "com.github.bumptech.glide", name = "glide", version = "4.15.1" }
+glideCompiler = { group = "com.github.bumptech.glide", name = "compiler", version = "4.15.1" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

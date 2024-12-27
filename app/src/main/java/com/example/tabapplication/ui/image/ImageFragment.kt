@@ -12,11 +12,21 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.content.Context
+import android.database.Cursor
+import android.net.Uri
+import android.provider.MediaStore
+import com.bumptech.glide.Glide
 
-class ImageAdapter(private val imageList: List<Int>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class ImageAdapter(private val imagePaths: List<String>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+
     inner class ImageViewHolder(private val binding: FragmentImageBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(imageResId: Int) {
-            binding.imageView.setImageResource(imageResId)
+        fun bind(imagePath: String) {
+            Glide.with(binding.imageView.context)
+                .load(imagePath) // 로컬 이미지 파일 경로
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
+                .into(binding.imageView)
         }
     }
 
@@ -26,12 +36,39 @@ class ImageAdapter(private val imageList: List<Int>) : RecyclerView.Adapter<Imag
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        holder.bind(imageList[position])
+        holder.bind(imagePaths[position])
     }
 
-    override fun getItemCount(): Int {
-        return imageList.size
+    override fun getItemCount() = imagePaths.size
+}
+
+fun getGalleryImages(context: Context): List<String> {
+    val imageList = mutableListOf<String>()
+
+    val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+
+    val projection = arrayOf(
+        MediaStore.Images.Media.DATA, // Path to the image file
+        MediaStore.Images.Media.DISPLAY_NAME // Optional: File name
+    )
+
+    val cursor: Cursor? = context.contentResolver.query(
+        uri,
+        projection,
+        null, // Selection (WHERE clause)
+        null, // Selection arguments
+        MediaStore.Images.Media.DATE_ADDED + " DESC" // Sort order
+    )
+
+    cursor?.use {
+        val columnIndexData = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        while (it.moveToNext()) {
+            val imagePath = it.getString(columnIndexData)
+            imageList.add(imagePath)
+        }
     }
+
+    return imageList
 }
 
 class ImageFragment : Fragment() {
@@ -53,18 +90,20 @@ class ImageFragment : Fragment() {
         _binding = FragmentImageBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val imageResIds = listOf(
+        val imageResStrs = getGalleryImages(requireContext())
+        /*listOf(
             R.drawable.testimg,
             R.drawable.testimg,
             R.drawable.testimg,
             R.drawable.testimg,
             R.drawable.testimg
-        )
+        )*/
 
-        val imageAdapter = ImageAdapter(imageResIds)
+        val imageAdapter = ImageAdapter(imageResStrs)
         val num_colum: Int=3
-        binding.imageRecyclerView.layoutManager = GridLayoutManager(requireContext(),num_colum)
-        binding.imageRecyclerView.adapter = imageAdapter
+        val recyclerView = binding.imageRecyclerView
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),num_colum)
+        recyclerView.adapter = imageAdapter
 
         return root
     }
