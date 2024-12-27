@@ -60,8 +60,8 @@ fun getGalleryImages(context: Context): List<String> {
     val cursor: Cursor? = context.contentResolver.query(
         uri,
         projection,
-        null, // Selection (WHERE clause)
-        null, // Selection arguments
+        null,
+        null,
         MediaStore.Images.Media.DATE_ADDED + " DESC"
     )
 
@@ -79,9 +79,6 @@ fun getGalleryImages(context: Context): List<String> {
 class ImageFragment : Fragment() {
 
     private var _binding: FragmentImageBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private fun setupRecyclerView(imagePaths: List<String>) {
