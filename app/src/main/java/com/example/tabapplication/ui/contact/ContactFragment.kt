@@ -1,27 +1,33 @@
 package com.example.tabapplication.ui.contact
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tabapplication.databinding.FragmentContactBinding
 import com.example.tabapplication.R
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.IOException
+import java.nio.charset.Charset
 
-class ContactInfo(var Name: String, var PhoneNumber: String, var Info: String) {}
+data class ContactInfo(
+    val Name: String,
+    val PhoneNumber: String,
+    val Address: String)
 
-class ContactAdapter(private val dataset: Array<ContactInfo>) :
+class ContactAdapter(private val dataset: List<ContactInfo>) :
     RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
     class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.findViewById(R.id.name_text)
         val phoneText: TextView = view.findViewById(R.id.phone_text)
-        val infoText: TextView = view.findViewById(R.id.info_text)
+        val addressText: TextView = view.findViewById(R.id.info_text)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -34,31 +40,22 @@ class ContactAdapter(private val dataset: Array<ContactInfo>) :
         val contact = dataset[position]
         holder.nameText.text = contact.Name
         holder.phoneText.text = contact.PhoneNumber
-        holder.infoText.text = contact.Info
+        holder.addressText.text = contact.Address
     }
 
     override fun getItemCount() = dataset.size
 }
 
-/*private fun getContacts() {
-    val contentResolver = contentResolver
-    val cursor = contentResolver.query(
-        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-        arrayOf(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER),
-        null, null, null
-    )
-
-    cursor?.let {
-        while (it.moveToNext()) {
-            val name = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-            val number = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-
-            // 가져온 연락처 정보를 처리 (예: Log에 출력)
-            Log.d("Contact", "Name: $name, Phone Number: $number")
-        }
-        it.close()
+fun readJsonFromAssets(context: Context, fileName: String): String? {
+    return try {
+        val inputStream = context.assets.open(fileName)
+        val json = inputStream.bufferedReader(Charset.defaultCharset()).use { it.readText() }
+        json
+    } catch (e: IOException) {
+        e.printStackTrace()
+        null
     }
-}*/
+}
 
 class ContactFragment : Fragment() {
 
@@ -79,11 +76,15 @@ class ContactFragment : Fragment() {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val dataset = arrayOf(
+        val json = readJsonFromAssets(requireContext(), "contact_data.json")
+        val gson=Gson()
+        val dataListType = object : TypeToken<List<ContactInfo>>() {}.type
+        val dataset: List<ContactInfo> = gson.fromJson(json, dataListType)
+        /*val dataset = arrayOf(
             ContactInfo("JunHo", "010-6889-4833", "Me"),
             ContactInfo("Alice", "010-1234-5678", "Friend"),
             ContactInfo("Bob", "010-8765-4321", "Colleague")
-        )
+        )*/
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = ContactAdapter(dataset)

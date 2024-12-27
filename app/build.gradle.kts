@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.runtime.android)
     implementation(libs.glide)
+    implementation(libs.gson)
     kapt(libs.glideCompiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

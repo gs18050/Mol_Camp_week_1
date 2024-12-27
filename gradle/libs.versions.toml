@@ -13,8 +13,10 @@ lifecycleViewmodelKtx = "2.6.1"
 navigationFragmentKtx = "2.6.0"
 navigationUiKtx = "2.6.0"
 runtimeAndroid = "1.7.6"
+gson = "2.11.0"
 
 [libraries]
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version = "4.15.1" }
 glideCompiler = { group = "com.github.bumptech.glide", name = "compiler", version = "4.15.1" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
