@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.image.ImageFragment">
 
-    <TextView
-        android:id="@+id/text_image"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

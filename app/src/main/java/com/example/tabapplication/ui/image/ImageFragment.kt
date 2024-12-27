@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tabapplication.databinding.FragmentImageBinding
+import com.example.tabapplication.R
+import android.widget.ImageView
 
 class ImageFragment : Fragment() {
 
@@ -28,9 +29,10 @@ class ImageFragment : Fragment() {
         _binding = FragmentImageBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textImage
-        imageViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val imageView: ImageView = binding.imageView
+        imageViewModel.setImage(R.drawable.testimg)
+        imageViewModel.imageResId.observe(viewLifecycleOwner) { resId ->
+            imageView.setImageResource(resId)
         }
         return root
     }
