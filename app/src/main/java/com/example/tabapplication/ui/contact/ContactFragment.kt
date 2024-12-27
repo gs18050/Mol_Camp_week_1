@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +39,26 @@ class ContactAdapter(private val dataset: Array<ContactInfo>) :
 
     override fun getItemCount() = dataset.size
 }
+
+/*private fun getContacts() {
+    val contentResolver = contentResolver
+    val cursor = contentResolver.query(
+        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+        arrayOf(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER),
+        null, null, null
+    )
+
+    cursor?.let {
+        while (it.moveToNext()) {
+            val name = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+            val number = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+            // 가져온 연락처 정보를 처리 (예: Log에 출력)
+            Log.d("Contact", "Name: $name, Phone Number: $number")
+        }
+        it.close()
+    }
+}*/
 
 class ContactFragment : Fragment() {
 

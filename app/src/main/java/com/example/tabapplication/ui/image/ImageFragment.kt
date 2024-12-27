@@ -16,14 +16,19 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import android.Manifest
+import android.content.pm.PackageManager
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 
 class ImageAdapter(private val imagePaths: List<String>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     inner class ImageViewHolder(private val binding: FragmentImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(imagePath: String) {
             Glide.with(binding.imageView.context)
-                .load(imagePath) // 로컬 이미지 파일 경로
+                .load(imagePath)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.error)
                 .into(binding.imageView)
@@ -48,8 +53,8 @@ fun getGalleryImages(context: Context): List<String> {
     val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 
     val projection = arrayOf(
-        MediaStore.Images.Media.DATA, // Path to the image file
-        MediaStore.Images.Media.DISPLAY_NAME // Optional: File name
+        MediaStore.Images.Media.DATA,
+        MediaStore.Images.Media.DISPLAY_NAME
     )
 
     val cursor: Cursor? = context.contentResolver.query(
@@ -57,7 +62,7 @@ fun getGalleryImages(context: Context): List<String> {
         projection,
         null, // Selection (WHERE clause)
         null, // Selection arguments
-        MediaStore.Images.Media.DATE_ADDED + " DESC" // Sort order
+        MediaStore.Images.Media.DATE_ADDED + " DESC"
     )
 
     cursor?.use {
@@ -79,31 +84,41 @@ class ImageFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private fun setupRecyclerView(imagePaths: List<String>) {
+        val imageAdapter = ImageAdapter(imagePaths)
+        val numColumns: Int = 3
+        val recyclerView = binding.imageRecyclerView
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), numColumns)
+        recyclerView.adapter = imageAdapter
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                val imageResStrs = getGalleryImages(requireContext())
+                setupRecyclerView(imageResStrs)
+            }else {
+                Toast.makeText(requireContext(), "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val imageViewModel =
-            ViewModelProvider(this).get(ImageViewModel::class.java)
+        //val imageViewModel =
+        //    ViewModelProvider(this).get(ImageViewModel::class.java)
 
         _binding = FragmentImageBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val imageResStrs = getGalleryImages(requireContext())
-        /*listOf(
-            R.drawable.testimg,
-            R.drawable.testimg,
-            R.drawable.testimg,
-            R.drawable.testimg,
-            R.drawable.testimg
-        )*/
-
-        val imageAdapter = ImageAdapter(imageResStrs)
-        val num_colum: Int=3
-        val recyclerView = binding.imageRecyclerView
-        recyclerView.layoutManager = GridLayoutManager(requireContext(),num_colum)
-        recyclerView.adapter = imageAdapter
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            val imageResStrs = getGalleryImages(requireContext())
+            setupRecyclerView(imageResStrs)
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
 
         return root
     }
