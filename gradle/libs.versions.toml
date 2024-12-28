@@ -15,8 +15,10 @@ navigationUiKtx = "2.6.0"
 runtimeAndroid = "1.7.6"
 gson = "2.11.0"
 kakao-maps = "2.9.5"
+gms-play-services-location = "18.0.0"
 
 [libraries]
+gms-play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "gms-play-services-location" }
 kakao-maps = { group = "com.kakao.maps.open", name = "android", version.ref = "kakao-maps" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version = "4.15.1" }
