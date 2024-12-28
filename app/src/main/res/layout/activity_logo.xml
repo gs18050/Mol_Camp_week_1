@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/logo_nupjuk"
@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/logo_title"
@@ -39,6 +39,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

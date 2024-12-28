@@ -7,6 +7,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -54,24 +55,22 @@ class LogoActivity : AppCompatActivity() {
             (displayMetrics.widthPixels*0.9).toInt(),
             (displayMetrics.widthPixels*0.9/1044*775).toInt())
 
-        val fadeIn = AlphaAnimation(0f, 1f)
-        fadeIn.duration = 2000
-        backgroundImageView.startAnimation(fadeIn)
-        backgroundImageView.visibility = View.VISIBLE
-        nupjukImageView.startAnimation(fadeIn)
-        nupjukImageView.visibility = View.VISIBLE
-        titleImageView.startAnimation(fadeIn)
-        titleImageView.visibility = View.VISIBLE
+        fun applyAnimation(imageViews: List<ImageView>, animation: Animation, visible: Boolean) {
+            for (imv in imageViews) {
+                imv.startAnimation(animation)
+                if (visible) imv.visibility=View.VISIBLE
+                else imv.visibility=View.INVISIBLE
+            }
+        }
+
+        //val fadeIn = AlphaAnimation(0.1f, 1f)
+        //fadeIn.duration = 2000
+        //applyAnimation(listOf(backgroundImageView,nupjukImageView,titleImageView),fadeIn,true)
 
         Handler().postDelayed({
-            val fadeOut = AlphaAnimation(1f, 0f)
+            val fadeOut = AlphaAnimation(1f, 0.1f)
             fadeOut.duration = 1500
-            backgroundImageView.startAnimation(fadeOut)
-            backgroundImageView.visibility = View.INVISIBLE
-            nupjukImageView.startAnimation(fadeOut)
-            nupjukImageView.visibility = View.INVISIBLE
-            titleImageView.startAnimation(fadeOut)
-            titleImageView.visibility = View.INVISIBLE
+            applyAnimation(listOf(backgroundImageView,nupjukImageView,titleImageView),fadeOut,false)
 
             Handler().postDelayed({
                 val intent = Intent(this@LogoActivity, MainActivity::class.java)
@@ -79,6 +78,6 @@ class LogoActivity : AppCompatActivity() {
                 overridePendingTransition(0, 0)
                 finish()
             }, fadeOut.duration)
-        }, 2500)
+        }, 2000)
     }
 }
