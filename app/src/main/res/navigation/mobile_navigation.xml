@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_tab3"
-        android:name="com.example.tabapplication.ui.calendar.CalendarFragment"
+        android:name="com.example.tabapplication.ui.map.MapFragment"
         android:label="@string/title_tab3"
         tools:layout="@layout/fragment_calendar" />
 
