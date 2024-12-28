@@ -1,7 +1,14 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+}
+
+val properties = Properties().apply {
+    load(FileInputStream(rootProject.file("local.properties")))
 }
 
 android {
@@ -12,10 +19,11 @@ android {
         applicationId = "com.example.tabapplication"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
         versionName = "1.0"
+        versionCode = 1
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "MAP_KEY", properties.getProperty("MAP_KEY"))
     }
 
     buildTypes {
@@ -36,6 +44,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -51,6 +60,7 @@ dependencies {
     implementation(libs.androidx.runtime.android)
     implementation(libs.glide)
     implementation(libs.gson)
+    implementation(libs.kakao.maps)
     kapt(libs.glideCompiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
