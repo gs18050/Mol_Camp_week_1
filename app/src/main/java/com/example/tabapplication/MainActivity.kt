@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_tab1, R.id.navigation_tab2, R.id.navigation_tab3
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 }
