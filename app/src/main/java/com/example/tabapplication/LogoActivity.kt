@@ -63,9 +63,9 @@ class LogoActivity : AppCompatActivity() {
             }
         }
 
-        //val fadeIn = AlphaAnimation(0.1f, 1f)
-        //fadeIn.duration = 2000
-        //applyAnimation(listOf(backgroundImageView,nupjukImageView,titleImageView),fadeIn,true)
+        val fadeIn = AlphaAnimation(0.1f, 1f)
+        fadeIn.duration = 2000
+        applyAnimation(listOf(backgroundImageView,nupjukImageView,titleImageView),fadeIn,true)
 
         Handler().postDelayed({
             val fadeOut = AlphaAnimation(1f, 0.1f)

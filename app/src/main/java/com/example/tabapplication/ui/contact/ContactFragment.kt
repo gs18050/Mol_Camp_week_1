@@ -1,11 +1,15 @@
 package com.example.tabapplication.ui.contact
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tabapplication.databinding.FragmentContactBinding
@@ -21,13 +25,14 @@ data class ContactInfo(
     val PhoneNumber: String,
     val Address: String)
 
-class ContactAdapter(private val dataset: List<ContactInfo>) :
+class ContactAdapter(private val dataset: List<ContactInfo>, private val listener: OnItemClickListener) :
     RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
     class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.findViewById(R.id.name_text)
         val phoneText: TextView = view.findViewById(R.id.phone_text)
         val addressText: TextView = view.findViewById(R.id.info_text)
+        val button: Button = view.findViewById(R.id.contact_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -41,6 +46,13 @@ class ContactAdapter(private val dataset: List<ContactInfo>) :
         holder.nameText.text = contact.Name
         holder.phoneText.text = contact.PhoneNumber
         holder.addressText.text = contact.Address
+        holder.button.setOnClickListener {
+            listener.onItemClick(position)  // 버튼 클릭 시 리스너 호출
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 
     override fun getItemCount() = dataset.size
@@ -57,7 +69,7 @@ fun readJsonFromAssets(context: Context, fileName: String): String? {
     }
 }
 
-class ContactFragment : Fragment() {
+class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
 
     private var _binding: FragmentContactBinding? = null
 
@@ -80,16 +92,23 @@ class ContactFragment : Fragment() {
         val gson=Gson()
         val dataListType = object : TypeToken<List<ContactInfo>>() {}.type
         val dataset: List<ContactInfo> = gson.fromJson(json, dataListType)
-        /*val dataset = arrayOf(
-            ContactInfo("JunHo", "010-6889-4833", "Me"),
-            ContactInfo("Alice", "010-1234-5678", "Friend"),
-            ContactInfo("Bob", "010-8765-4321", "Colleague")
-        )*/
+
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = ContactAdapter(dataset)
+        recyclerView.adapter = ContactAdapter(dataset, this)
 
         return root
+    }
+
+    override fun onItemClick(position: Int) {
+        val json = readJsonFromAssets(requireContext(), "contact_data.json")
+        val gson=Gson()
+        val dataListType = object : TypeToken<List<ContactInfo>>() {}.type
+        val dataset: List<ContactInfo> = gson.fromJson(json, dataListType)
+        //Toast.makeText(requireContext(), dataset[position].PhoneNumber, Toast.LENGTH_SHORT).show()
+        val phone_number=dataset[position].PhoneNumber
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone_number"))
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
