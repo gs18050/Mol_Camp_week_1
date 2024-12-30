@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -30,7 +31,6 @@ import com.google.gson.reflect.TypeToken
 import java.io.IOException
 import java.nio.charset.Charset
 import java.util.Random
-import java.util.stream.IntStream.range
 
 data class ContactInfo(
     val Name: String,
@@ -164,9 +164,70 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
 
         val imageView3 = root.findViewById<ImageView>(R.id.imageView3)
         imageView3.setOnClickListener {
-            val random = Random()
-            val ind = random.nextInt(dataset.size)
-            filterList(dataset[ind].Name)
+            val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.popup_layout, null)
+
+            val imageView = dialogView.findViewById<ImageView>(R.id.popup_image)
+            val nameText = dialogView.findViewById<TextView>(R.id.popup_name)
+            val addressText = dialogView.findViewById<TextView>(R.id.popup_address)
+            val closeButton = dialogView.findViewById<Button>(R.id.popup_close_button)
+            val callButton = dialogView.findViewById<Button>(R.id.popup_call_button)
+
+            val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            builder.setView(dialogView)
+            val dialog = builder.create()
+
+            val handler = android.os.Handler()
+            val interval = 100L
+            val duration = 3000L
+            val endTime = System.currentTimeMillis() + duration
+            lateinit var phoneText: String
+
+            val rouletteTask = object : Runnable {
+                override fun run() {
+                    if (System.currentTimeMillis() < endTime) {
+                        val randomIndex = Random().nextInt(dataset.size)
+                        val randomContact = dataset[randomIndex]
+
+                        Glide.with(requireContext())
+                            .load(randomContact.imagePath)
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.error)
+                            .into(imageView)
+
+                        nameText.text = randomContact.Name
+                        addressText.text = randomContact.Address
+
+                        handler.postDelayed(this, interval)
+                    } else {
+                        val finalIndex = Random().nextInt(dataset.size)
+                        val finalContact = dataset[finalIndex]
+
+                        Glide.with(requireContext())
+                            .load(finalContact.imagePath)
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.error)
+                            .into(imageView)
+
+                        nameText.text = finalContact.Name
+                        phoneText = finalContact.PhoneNumber
+                        addressText.text = finalContact.Address
+                    }
+                }
+            }
+
+            handler.post(rouletteTask)
+
+            closeButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            callButton.setOnClickListener {
+                val phone_number = phoneText
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone_number"))
+                startActivity(intent)
+                dialog.dismiss()
+            }
+
+            dialog.show()
         }
 
         return root
