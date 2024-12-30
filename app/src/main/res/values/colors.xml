@@ -11,5 +11,9 @@
     <color name="orange">#F8B64C</color>
     <color name="transparent">#00FFFFFF</color>
 
+    <color name="deepblue">#1f4ef5</color>
+    <color name="blue">#4880ee</color>
+    <color name="skyblue">#83b4f9</color>
+
 
 </resources>
