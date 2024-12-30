@@ -39,7 +39,7 @@ class ContactAdapter(private var dataset: List<ContactInfo>,
     class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.findViewById(R.id.name_text)
         val addressText: TextView = view.findViewById(R.id.info_text)
-        val image: ImageView = view.findViewById(R.id.ic_call)
+        val image: ImageView = view.findViewById(R.id.item_image)
         val button: Button = view.findViewById(R.id.contact_button)
     }
 
