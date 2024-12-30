@@ -1,31 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_margin="8dp"
+    android:background="@drawable/frame_7"
+    android:elevation="4dp"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/name_text"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="18sp" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/food1" />
 
-    <TextView
-        android:id="@+id/phone_text"
-        android:layout_width="wrap_content"
+
+    <!-- 텍스트와 아이콘을 포함한 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp" />
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/info_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp" />
+        <!-- 상호명과 주소 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/contact_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <!-- 상호명 -->
+            <TextView
+                android:id="@+id/name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- 주소 -->
+            <TextView
+                android:id="@+id/info_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#777777"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- 전화 아이콘 -->
+        <ImageButton
+            android:id="@+id/contact_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_call"
+            android:background="?attr/selectableItemBackground" />
+
+    </LinearLayout>
 </LinearLayout>

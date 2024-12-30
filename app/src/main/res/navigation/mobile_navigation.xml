@@ -21,6 +21,6 @@
         android:id="@+id/navigation_tab3"
         android:name="com.example.tabapplication.ui.map.MapFragment"
         android:label="@string/title_tab3"
-        tools:layout="@layout/fragment_calendar" />
+        tools:layout="@layout/fragment_map" />
 
 </navigation>
