@@ -96,7 +96,7 @@ class ImageFragment : Fragment() {
             sharedViewModel.updateFlag(true)
             sharedViewModel.updateTab(2)
         }
-        val numColumns = 3
+        val numColumns = 2
         val recyclerView = binding.imageRecyclerView
         recyclerView.layoutManager = GridLayoutManager(requireContext(), numColumns)
         recyclerView.adapter = imageAdapter
