@@ -3,23 +3,28 @@ package com.example.tabapplication.ui.map
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.example.tabapplication.BuildConfig
 import com.example.tabapplication.R
 import com.example.tabapplication.SharedViewModel
 import com.example.tabapplication.databinding.FragmentMapBinding
 import com.example.tabapplication.ui.contact.ContactInfo
 import com.example.tabapplication.ui.contact.readJsonFromAssets
+import com.example.tabapplication.ui.image.getGalleryImages
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.KakaoMapSdk
@@ -27,6 +32,7 @@ import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.MapView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kakao.vectormap.LatLng
@@ -89,6 +95,25 @@ class MapFragment : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         getPermission(permissionList)
 
+        lateinit var imageResStrs: List<String>
+        val requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    imageResStrs = getGalleryImages(requireContext())
+                }else {
+                    Toast.makeText(requireContext(), "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            imageResStrs = getGalleryImages(requireContext())
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+
+        for (i in 0 until imageResStrs.size) {
+            dataset[i].imagePath = imageResStrs[i]
+        }
+
         return root
     }
 
@@ -144,25 +169,49 @@ class MapFragment : Fragment() {
                 if (latitude!=0.0 || longitude!=0.0) {
                     val currentLocation = LatLng.from(latitude, longitude)
                     val cameraUpdate: CameraUpdate =
-                        CameraUpdateFactory.newCenterPosition(currentLocation)
-                    kakaoMap!!.moveCamera(cameraUpdate);
+                        CameraUpdateFactory.newCenterPosition(currentLocation,18)
+                    kakaoMap!!.moveCamera(cameraUpdate)
                 }
 
-                for (data in dataset) {
+                for ((ind,data) in dataset.withIndex()) {
                     val location = LatLng.from(data.latitude, data.longitude)
                     val styles = kakaomap.labelManager?.addLabelStyles(
                         LabelStyles.from(
                             LabelStyle.from(
-                                R.drawable.placeholder
-                            )
+                                R.drawable.ping_image
+                            ).setZoomLevel(18)
                         )
                     )
-                    val options = LabelOptions.from(location).setStyles(styles)
+                    val options = LabelOptions.from(location).setStyles(styles).setTag(ind)
                     val layer = kakaomap.labelManager?.layer
                     layer?.addLabel(options)
                 }
+                kakaomap.setOnLabelClickListener { map, layer, label ->
+                    val tag = label.tag as? Int
+                    if (tag != null && tag in dataset.indices) {
+                        val selectedData = dataset[tag]
+                        showBottomSheet(selectedData)
+                    }
+                }
             }
         })
+    }
+
+    private fun showBottomSheet(data: ContactInfo) {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.map_label_info, null)
+
+        view.findViewById<TextView>(R.id.label_info_name).text = data.Name
+        view.findViewById<TextView>(R.id.label_info_adress).text = data.Address
+        val imgView = view.findViewById<ImageView>(R.id.label_info_image)
+        Glide.with(imgView.context)
+            .load(data.imagePath)
+            .placeholder(R.drawable.placeholder)
+            .error(R.drawable.error)
+            .into(imgView)
+
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
     }
 
     override fun onDestroyView() {
