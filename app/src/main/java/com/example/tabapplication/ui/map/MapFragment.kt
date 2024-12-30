@@ -1,14 +1,17 @@
 package com.example.tabapplication.ui.map
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.media.Image
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -209,6 +212,13 @@ class MapFragment : Fragment() {
             .placeholder(R.drawable.placeholder)
             .error(R.drawable.error)
             .into(imgView)
+
+        val buttonView = view.findViewById<ImageButton>(R.id.label_contact_button)
+        buttonView.setOnClickListener {
+            val phone_number = data.PhoneNumber
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone_number"))
+            startActivity(intent)
+        }
 
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()
