@@ -11,12 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tabapplication.databinding.FragmentContactBinding
 import com.example.tabapplication.R
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.IOException
@@ -29,13 +31,16 @@ data class ContactInfo(
     val latitude: Double,
     val longitude: Double)
 
-class ContactAdapter(private var dataset: List<ContactInfo>, private val listener: OnItemClickListener) :
+class ContactAdapter(private var dataset: List<ContactInfo>,
+                     private val imagePaths: List<String>,
+                     private val listener: OnItemClickListener) :
     RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
     class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.findViewById(R.id.name_text)
         val phoneText: TextView = view.findViewById(R.id.phone_text)
         val addressText: TextView = view.findViewById(R.id.info_text)
+        val image: ImageView = view.findViewById(R.id.ic_call)
         val button: Button = view.findViewById(R.id.contact_button)
     }
 
@@ -50,6 +55,14 @@ class ContactAdapter(private var dataset: List<ContactInfo>, private val listene
         holder.nameText.text = contact.Name
         holder.phoneText.text = contact.PhoneNumber
         holder.addressText.text = contact.Address
+
+        val imagePath = imagePaths.getOrNull(position)
+        Glide.with(holder.image.context)
+            .load(imagePath)
+            .placeholder(R.drawable.placeholder)
+            .error(R.drawable.error)
+            .into(holder.image)
+
         holder.button.setOnClickListener {
             listener.onItemClick(position)
         }
