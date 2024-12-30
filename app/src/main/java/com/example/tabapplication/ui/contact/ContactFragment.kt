@@ -29,16 +29,18 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.IOException
 import java.nio.charset.Charset
+import java.util.Random
+import java.util.stream.IntStream.range
 
 data class ContactInfo(
     val Name: String,
     val PhoneNumber: String,
     val Address: String,
     val latitude: Double,
-    val longitude: Double)
+    val longitude: Double,
+    var imagePath: String)
 
 class ContactAdapter(private var dataset: List<ContactInfo>,
-                     private val imagePaths: List<String>,
                      private val listener: OnItemClickListener) :
     RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
@@ -60,7 +62,8 @@ class ContactAdapter(private var dataset: List<ContactInfo>,
         holder.nameText.text = contact.Name
         holder.addressText.text = contact.Address
 
-        val imagePath = imagePaths.getOrNull(position)
+        //val imagePath = imagePaths.getOrNull(position)
+        val imagePath = contact.imagePath
         Glide.with(holder.image.context)
             .load(imagePath)
             .placeholder(R.drawable.placeholder)
@@ -142,7 +145,11 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
             requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
 
-        adapter = ContactAdapter(dataset, imageResStrs,this)
+        for (i in 0 until imageResStrs.size) {
+            dataset[i].imagePath = imageResStrs[i]
+        }
+
+        adapter = ContactAdapter(dataset, this)
 
         recyclerView.adapter=adapter
 
@@ -154,6 +161,13 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
 
             override fun afterTextChanged(s: Editable?) {}
         })
+
+        val imageView3 = root.findViewById<ImageView>(R.id.imageView3)
+        imageView3.setOnClickListener {
+            val random = Random()
+            val ind = random.nextInt(dataset.size)
+            filterList(dataset[ind].Name)
+        }
 
         return root
     }
