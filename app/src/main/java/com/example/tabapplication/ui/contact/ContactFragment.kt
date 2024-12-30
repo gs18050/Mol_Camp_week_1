@@ -1,7 +1,9 @@
 package com.example.tabapplication.ui.contact
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -9,16 +11,20 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tabapplication.databinding.FragmentContactBinding
 import com.example.tabapplication.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.tabapplication.ui.image.getGalleryImages
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.IOException
@@ -39,8 +45,8 @@ class ContactAdapter(private var dataset: List<ContactInfo>,
     class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.findViewById(R.id.name_text)
         val addressText: TextView = view.findViewById(R.id.info_text)
-        val image: ImageView = view.findViewById(R.id.ic_call)
-        val button: Button = view.findViewById(R.id.contact_button)
+        val image: ImageView = view.findViewById(R.id.item_image)
+        val button: ImageButton = view.findViewById(R.id.contact_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -114,12 +120,30 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         val json = readJsonFromAssets(requireContext(), "contact_data.json")
         val gson=Gson()
         val dataListType = object : TypeToken<List<ContactInfo>>() {}.type
+
         dataset = gson.fromJson(json, dataListType)
         searchEditText = root.findViewById(R.id.searchEditText)
 
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ContactAdapter(dataset, this)
+
+        lateinit var imageResStrs: List<String>
+        val requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    imageResStrs = getGalleryImages(requireContext())
+                }else {
+                    Toast.makeText(requireContext(), "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            imageResStrs = getGalleryImages(requireContext())
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+
+        adapter = ContactAdapter(dataset, imageResStrs,this)
+
         recyclerView.adapter=adapter
 
         searchEditText.addTextChangedListener(object : TextWatcher {
