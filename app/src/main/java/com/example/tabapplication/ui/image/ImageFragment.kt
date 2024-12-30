@@ -69,7 +69,7 @@ fun getGalleryImages(context: Context): List<String> {
         projection,
         null,
         null,
-        MediaStore.Images.Media.DATE_ADDED + " ASC"
+        MediaStore.Images.Media.DISPLAY_NAME + " ASC"
     )
 
     cursor?.use {

@@ -144,8 +144,8 @@ class MapFragment : Fragment() {
                 if (latitude!=0.0 || longitude!=0.0) {
                     val currentLocation = LatLng.from(latitude, longitude)
                     val cameraUpdate: CameraUpdate =
-                        CameraUpdateFactory.newCenterPosition(currentLocation)
-                    kakaoMap!!.moveCamera(cameraUpdate);
+                        CameraUpdateFactory.newCenterPosition(currentLocation,18)
+                    kakaoMap!!.moveCamera(cameraUpdate)
                 }
 
                 for (data in dataset) {
@@ -153,8 +153,8 @@ class MapFragment : Fragment() {
                     val styles = kakaomap.labelManager?.addLabelStyles(
                         LabelStyles.from(
                             LabelStyle.from(
-                                R.drawable.placeholder
-                            )
+                                R.drawable.ping_image
+                            ).setZoomLevel(18)
                         )
                     )
                     val options = LabelOptions.from(location).setStyles(styles)
