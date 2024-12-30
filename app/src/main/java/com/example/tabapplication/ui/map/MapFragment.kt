@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -27,6 +28,7 @@ import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.MapView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kakao.vectormap.LatLng
@@ -148,7 +150,7 @@ class MapFragment : Fragment() {
                     kakaoMap!!.moveCamera(cameraUpdate)
                 }
 
-                for (data in dataset) {
+                for ((ind,data) in dataset.withIndex()) {
                     val location = LatLng.from(data.latitude, data.longitude)
                     val styles = kakaomap.labelManager?.addLabelStyles(
                         LabelStyles.from(
@@ -157,12 +159,29 @@ class MapFragment : Fragment() {
                             ).setZoomLevel(18)
                         )
                     )
-                    val options = LabelOptions.from(location).setStyles(styles)
+                    val options = LabelOptions.from(location).setStyles(styles).setTag(ind)
                     val layer = kakaomap.labelManager?.layer
                     layer?.addLabel(options)
                 }
+                kakaomap.setOnLabelClickListener { map, layer, label ->
+                    val tag = label.tag as? Int
+                    if (tag != null && tag in dataset.indices) {
+                        val selectedData = dataset[tag]
+                        showBottomSheet(selectedData)
+                    }
+                }
             }
         })
+    }
+
+    private fun showBottomSheet(data: ContactInfo) {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.map_label_info, null)
+
+        view.findViewById<TextView>(R.id.nameTextView).text = data.Name
+
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
     }
 
     override fun onDestroyView() {
