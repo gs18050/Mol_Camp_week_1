@@ -38,7 +38,6 @@ class ContactAdapter(private var dataset: List<ContactInfo>,
 
     class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.findViewById(R.id.name_text)
-        val phoneText: TextView = view.findViewById(R.id.phone_text)
         val addressText: TextView = view.findViewById(R.id.info_text)
         val image: ImageView = view.findViewById(R.id.ic_call)
         val button: Button = view.findViewById(R.id.contact_button)
@@ -53,7 +52,6 @@ class ContactAdapter(private var dataset: List<ContactInfo>,
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         val contact = dataset[position]
         holder.nameText.text = contact.Name
-        holder.phoneText.text = contact.PhoneNumber
         holder.addressText.text = contact.Address
 
         val imagePath = imagePaths.getOrNull(position)
