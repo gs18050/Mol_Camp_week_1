@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.kakao.maps)
     implementation(libs.gms.play.services.location)
+    implementation(libs.androidx.fragment.ktx)
     kapt(libs.glideCompiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

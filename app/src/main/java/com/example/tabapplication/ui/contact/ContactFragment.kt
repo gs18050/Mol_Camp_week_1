@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tabapplication.databinding.FragmentContactBinding
@@ -26,7 +25,9 @@ import java.nio.charset.Charset
 data class ContactInfo(
     val Name: String,
     val PhoneNumber: String,
-    val Address: String)
+    val Address: String,
+    val latitude: Double,
+    val longitude: Double)
 
 class ContactAdapter(private var dataset: List<ContactInfo>, private val listener: OnItemClickListener) :
     RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
@@ -70,7 +71,7 @@ class ContactAdapter(private var dataset: List<ContactInfo>, private val listene
     override fun getItemCount() = dataset.size
 }
 
-fun readJsonFromAssets(context: Context, fileName: String): String? {
+public fun readJsonFromAssets(context: Context, fileName: String): String? {
     return try {
         val inputStream = context.assets.open(fileName)
         val json = inputStream.bufferedReader(Charset.defaultCharset()).use { it.readText() }
@@ -95,8 +96,6 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //val contactViewModel =
-        //    ViewModelProvider(this).get(ContactViewModel::class.java)
 
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         val root: View = binding.root

@@ -5,12 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.tabapplication.databinding.FragmentImageBinding
 import com.example.tabapplication.R
-import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
 import android.database.Cursor
@@ -22,16 +19,26 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
+import com.example.tabapplication.MainActivity
+import com.example.tabapplication.SharedViewModel
+import com.example.tabapplication.ui.contact.ContactAdapter
 
-class ImageAdapter(private val imagePaths: List<String>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class ImageAdapter(private val imagePaths: List<String>,
+    private val onItemClick: (Int,String)->Unit
+) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     inner class ImageViewHolder(private val binding: FragmentImageBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(imagePath: String) {
+        fun bind(pos: Int, imagePath: String) {
             Glide.with(binding.imageView.context)
                 .load(imagePath)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.error)
                 .into(binding.imageView)
+
+            binding.root.setOnClickListener {
+                onItemClick(pos,imagePath)
+            }
         }
     }
 
@@ -41,7 +48,7 @@ class ImageAdapter(private val imagePaths: List<String>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        holder.bind(imagePaths[position])
+        holder.bind(position, imagePaths[position])
     }
 
     override fun getItemCount() = imagePaths.size
@@ -80,10 +87,16 @@ class ImageFragment : Fragment() {
 
     private var _binding: FragmentImageBinding? = null
     private val binding get() = _binding!!
+    val sharedViewModel: SharedViewModel by activityViewModels()
 
     private fun setupRecyclerView(imagePaths: List<String>) {
-        val imageAdapter = ImageAdapter(imagePaths)
-        val numColumns: Int = 3
+        val imageAdapter = ImageAdapter(imagePaths) { pos, imagePath ->
+            val mainActivity = requireActivity() as MainActivity
+            sharedViewModel.updateData(pos)
+            sharedViewModel.updateFlag(true)
+            mainActivity.navigateToTab(2)
+        }
+        val numColumns = 3
         val recyclerView = binding.imageRecyclerView
         recyclerView.layoutManager = GridLayoutManager(requireContext(), numColumns)
         recyclerView.adapter = imageAdapter
@@ -104,8 +117,6 @@ class ImageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //val imageViewModel =
-        //    ViewModelProvider(this).get(ImageViewModel::class.java)
 
         _binding = FragmentImageBinding.inflate(inflater, container, false)
         val root: View = binding.root

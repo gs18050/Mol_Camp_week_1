@@ -2,16 +2,15 @@
     {
         "Name":"JunHo",
         "PhoneNumber":"010-6889-4833",
-        "Address":"null"
+        "Address":"null",
+        "latitude": 36.37410707571361,
+        "longitude": 127.36538250146714
     }, 
     {
-        "Name":"MolCamp",
+        "Name":"오니기리와이규동",
         "PhoneNumber":"010-0000-0000",
-        "Address":"null"
-    },
-    {
-        "Name":"Who",
-        "PhoneNumber":"010-1111-1111",
-        "Adress":"null"
+        "Address":"대전 유성구 대학로 291 한국과학기술원 N11카이마루 C-5동 1층 (우)34141",
+        "latitude": 36.37391935898549,
+        "longitude": 127.35968161258941
     }
 ]
