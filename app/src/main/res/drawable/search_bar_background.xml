@@ -1,4 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#E0E0E0" /> <!-- 배경색 (연한 회색) -->
-    <corners android:radius="10dp" /> <!-- 둥근 모서리 -->
+    <corners android:radius="63dp" />
+    <solid android:color="#FFFFFF" /> <!-- 배경색 -->
 </shape>

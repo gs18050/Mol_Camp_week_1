@@ -14,6 +14,7 @@
     <color name="deepblue">#1f4ef5</color>
     <color name="blue">#4880ee</color>
     <color name="skyblue">#83b4f9</color>
+    <color name="backcolor">#f3f4f6</color>
 
 
 </resources>

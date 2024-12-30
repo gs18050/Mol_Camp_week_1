@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.contact.ContactFragment">
 
     <!-- 검색바 -->
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/search_bar_background"
+        android:layout_height="140px"
+        android:layout_marginStart="60px"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="60px"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="#F2F3F5"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="8dp"
@@ -32,7 +33,7 @@
             android:layout_marginLeft="12dp"
             android:contentDescription="Search icon"
             android:src="@drawable/search"
-            app:tint="@color/white" />
+            app:tint="#8B95A1" />
 
         <!-- 검색 필드 -->
         <EditText
@@ -42,38 +43,96 @@
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="Search"
+            android:hint="맛집 검색"
             android:inputType="text"
             android:paddingStart="8dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/white"
+            android:textColor="#8B95A1"
+            android:textColorHint="#8B95A1"
             android:textSize="16sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="60px"
+        android:layout_marginEnd="60px"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="#F2F3F5"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.62">
+
+        <!-- 원형 이미지 -->
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/circle_background"
+            android:src="@drawable/pick" />
+
+        <!-- 텍스트 영역 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <!-- 제목 -->
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오늘의 넙죽이 픽"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- 서브 텍스트 -->
+            <TextView
+                android:id="@+id/item_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="메뉴 추천 받기"
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- 버튼 -->
+        <Button
+            android:id="@+id/imageView3"
+            android:layout_width="160px"
+            android:layout_height="100px"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/blue"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="열기"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="160dp"
-        android:layout_marginBottom="60dp"
-        android:padding="16dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="50dp"
+        android:padding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/item_contact" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="286dp"
-        android:layout_height="88dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/ad1"
-        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
