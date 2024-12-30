@@ -2,39 +2,77 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="1000px"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="80px">
 
-    <ImageView
-        android:id="@+id/label_info_image"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:src="@drawable/placeholder"
-        android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/label_info_name"
+    <!-- 텍스트와 버튼을 가로로 배치 -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:paddingBottom="8dp"
-        android:gravity="center"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/label_info_adress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center" />
+        <!-- 텍스트 뷰를 감싸는 레이아웃 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/label_contact_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_call"
+            <!-- 상호명 -->
+            <TextView
+                android:id="@+id/label_info_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                 />
+
+            <!-- 주소 -->
+            <TextView
+                android:id="@+id/label_info_adress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50px" />
+        </LinearLayout>
+
+        <!-- 이미지 버튼 -->
+        <ImageButton
+            android:id="@+id/label_contact_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_call"
+            android:layout_marginRight="20px"
+            android:layout_marginLeft="20px"
         android:background="?attr/selectableItemBackground" />
+    </LinearLayout>
+
+
+    <!-- 가로로 배치 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/label_info_image"
+            android:layout_width="500px"
+            android:layout_height="500px"
+            android:layout_marginTop="50px"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder" />
+
+        <ImageView
+            android:id="@+id/label_info_image"
+            android:layout_width="300px"
+            android:layout_height="500px"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="50px"
+            android:scaleType="centerCrop"
+            android:src="@drawable/menu_nupjuk" />
+    </LinearLayout>
 
 </LinearLayout>
