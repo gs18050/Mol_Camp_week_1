@@ -17,6 +17,8 @@ class SharedViewModel : ViewModel() {
     val sharedData: LiveData<Int> get() = _sharedData
     private val _sharedFlag = MutableLiveData<Boolean>()
     val sharedFlag: LiveData<Boolean> get() = _sharedFlag
+    private val _currentTab = MutableLiveData<Int>()
+    val currentTab: LiveData<Int> get() = _currentTab
 
     fun updateData(newData: Int) {
         _sharedData.value = newData
@@ -24,6 +26,10 @@ class SharedViewModel : ViewModel() {
 
     fun updateFlag(newFlag: Boolean) {
         _sharedFlag.value = newFlag
+    }
+
+    fun updateTab(newTab: Int) {
+        _currentTab.value = newTab
     }
 }
 
@@ -42,10 +48,33 @@ class MainActivity : AppCompatActivity() {
         sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
         sharedViewModel.updateData(-1)
         sharedViewModel.updateFlag(true)
+        sharedViewModel.updateTab(0)
 
         val navView: BottomNavigationView = binding.navView
         navController = findNavController(R.id.nav_host_fragment_activity_main)
+
         navView.setupWithNavController(navController)
+        navView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_tab1 -> {
+                    sharedViewModel.updateTab(0)
+                    true
+                }
+                R.id.navigation_tab2 -> {
+                    sharedViewModel.updateTab(1)
+                    true
+                }
+                R.id.navigation_tab3 -> {
+                    sharedViewModel.updateTab(2)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        sharedViewModel.currentTab.observe(this) { tabIndex ->
+            navigateToTab(tabIndex)
+        }
     }
 
     fun navigateToTab(tabIndex: Int) {

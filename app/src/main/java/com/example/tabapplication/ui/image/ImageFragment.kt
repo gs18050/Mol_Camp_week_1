@@ -69,7 +69,7 @@ fun getGalleryImages(context: Context): List<String> {
         projection,
         null,
         null,
-        MediaStore.Images.Media.DATE_ADDED + " DESC"
+        MediaStore.Images.Media.DATE_ADDED + " ASC"
     )
 
     cursor?.use {
@@ -94,7 +94,7 @@ class ImageFragment : Fragment() {
             val mainActivity = requireActivity() as MainActivity
             sharedViewModel.updateData(pos)
             sharedViewModel.updateFlag(true)
-            mainActivity.navigateToTab(2)
+            sharedViewModel.updateTab(2)
         }
         val numColumns = 3
         val recyclerView = binding.imageRecyclerView
