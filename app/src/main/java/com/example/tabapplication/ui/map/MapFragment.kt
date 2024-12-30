@@ -3,11 +3,13 @@ package com.example.tabapplication.ui.map
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,12 +17,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.example.tabapplication.BuildConfig
 import com.example.tabapplication.R
 import com.example.tabapplication.SharedViewModel
 import com.example.tabapplication.databinding.FragmentMapBinding
 import com.example.tabapplication.ui.contact.ContactInfo
 import com.example.tabapplication.ui.contact.readJsonFromAssets
+import com.example.tabapplication.ui.image.getGalleryImages
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.KakaoMapSdk
@@ -90,6 +94,25 @@ class MapFragment : Fragment() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         getPermission(permissionList)
+
+        lateinit var imageResStrs: List<String>
+        val requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    imageResStrs = getGalleryImages(requireContext())
+                }else {
+                    Toast.makeText(requireContext(), "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            imageResStrs = getGalleryImages(requireContext())
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+
+        for (i in 0 until imageResStrs.size) {
+            dataset[i].imagePath = imageResStrs[i]
+        }
 
         return root
     }
@@ -178,7 +201,14 @@ class MapFragment : Fragment() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.map_label_info, null)
 
-        view.findViewById<TextView>(R.id.nameTextView).text = data.Name
+        view.findViewById<TextView>(R.id.label_info_name).text = data.Name
+        view.findViewById<TextView>(R.id.label_info_adress).text = data.Address
+        val imgView = view.findViewById<ImageView>(R.id.label_info_image)
+        Glide.with(imgView.context)
+            .load(data.imagePath)
+            .placeholder(R.drawable.placeholder)
+            .error(R.drawable.error)
+            .into(imgView)
 
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()

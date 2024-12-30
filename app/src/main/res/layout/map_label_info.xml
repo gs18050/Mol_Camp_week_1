@@ -6,12 +6,28 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <ImageView
+        android:id="@+id/label_info_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:src="@drawable/placeholder"
+        android:scaleType="centerCrop" />
+
     <TextView
-        android:id="@+id/nameTextView"
+        android:id="@+id/label_info_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:paddingBottom="8dp" />
+        android:paddingBottom="8dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/label_info_adress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center" />
 
 </LinearLayout>
