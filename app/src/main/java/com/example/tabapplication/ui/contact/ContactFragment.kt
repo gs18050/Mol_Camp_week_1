@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -46,7 +47,7 @@ class ContactAdapter(private var dataset: List<ContactInfo>,
         val nameText: TextView = view.findViewById(R.id.name_text)
         val addressText: TextView = view.findViewById(R.id.info_text)
         val image: ImageView = view.findViewById(R.id.item_image)
-        val button: Button = view.findViewById(R.id.contact_button)
+        val button: ImageButton = view.findViewById(R.id.contact_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
