@@ -42,6 +42,7 @@ import com.google.gson.reflect.TypeToken
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.camera.CameraUpdate
 import com.kakao.vectormap.camera.CameraUpdateFactory
+import com.kakao.vectormap.label.LabelManager
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
@@ -180,13 +181,27 @@ class MapFragment : Fragment() {
 
                 for ((ind,data) in dataset.withIndex()) {
                     val location = LatLng.from(data.latitude, data.longitude)
-                    val styles = kakaomap.labelManager?.addLabelStyles(
-                        LabelStyles.from(
-                            LabelStyle.from(
-                                R.drawable.ping_image
-                            ).setZoomLevel(18)
-                        )
-                    )
+                    lateinit var styles: LabelStyles
+                    sharedViewModel.sharedData.observe(viewLifecycleOwner) { sharedDataValue ->
+                        if (ind == sharedDataValue) {
+                            styles = kakaomap.labelManager?.addLabelStyles(
+                                LabelStyles.from(
+                                    LabelStyle.from(
+                                        R.drawable.current_ping_image
+                                    ).setZoomLevel(5)
+                                )
+                            )!!
+                        }
+                        else {
+                            styles = kakaomap.labelManager?.addLabelStyles(
+                                LabelStyles.from(
+                                    LabelStyle.from(
+                                        R.drawable.ping_image
+                                    ).setZoomLevel(5)
+                                )
+                            )!!
+                        }
+                    }
                     val options = LabelOptions.from(location).setStyles(styles).setTag(ind)
                     val layer = kakaomap.labelManager?.layer
                     layer?.addLabel(options)

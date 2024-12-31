@@ -4,10 +4,12 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,11 +22,13 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tabapplication.databinding.FragmentContactBinding
 import com.example.tabapplication.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.tabapplication.SharedViewModel
 import com.example.tabapplication.ui.image.getGalleryImages
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -41,7 +45,8 @@ data class ContactInfo(
     var imagePath: String)
 
 class ContactAdapter(private var dataset: List<ContactInfo>,
-                     private val listener: OnItemClickListener) :
+                     private val listener: OnItemClickListener,
+                     private val onItemClick: (Int) -> Unit) :
     RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
     class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -72,6 +77,10 @@ class ContactAdapter(private var dataset: List<ContactInfo>,
 
         holder.button.setOnClickListener {
             listener.onItemClick(position)
+        }
+
+        holder.image.setOnClickListener {
+            onItemClick(position)
         }
     }
 
@@ -110,6 +119,7 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
     private lateinit var adapter: ContactAdapter
     private lateinit var recyclerView: RecyclerView
     private val binding get() = _binding!!
+    val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -150,7 +160,12 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
             dataset[i].imagePath = imageResStrs[i]
         }
 
-        adapter = ContactAdapter(dataset, this)
+        adapter = ContactAdapter(dataset, this) { pos, ->
+            //val mainActivity = requireActivity() as MainActivity
+            sharedViewModel.updateData(pos)
+            sharedViewModel.updateFlag(true)
+            sharedViewModel.updateTab(2)
+        }
 
         recyclerView.adapter=adapter
 
@@ -187,38 +202,47 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
             val duration = 3000L
             val endTime = System.currentTimeMillis() + duration
             lateinit var phoneText: String
+            var currentIndex = -1
 
             val rouletteTask = object : Runnable {
                 override fun run() {
                     if (System.currentTimeMillis() < endTime) {
                         val randomIndex = Random().nextInt(dataset.size)
+                        currentIndex=randomIndex
                         val randomContact = dataset[randomIndex]
 
                         Glide.with(requireContext())
                             .load(randomContact.imagePath)
-                            .placeholder(R.drawable.placeholder)
+                            .override(900,900)
                             .error(R.drawable.error)
                             .into(imageView)
 
-                        nameText.text = randomContact.Name
+                        nameText.text = randomContact.Name.take(5)
                         addressText.text = randomContact.Address
 
                         handler.postDelayed(this, interval)
                     } else {
                         val finalIndex = Random().nextInt(dataset.size)
+                        currentIndex=finalIndex
                         val finalContact = dataset[finalIndex]
 
                         Glide.with(requireContext())
                             .load(finalContact.imagePath)
-                            .placeholder(R.drawable.placeholder)
+                            .override(900,900)
                             .error(R.drawable.error)
                             .into(imageView)
 
-                        nameText.text = finalContact.Name
+                        nameText.text = finalContact.Name.take(5)
                         phoneText = finalContact.PhoneNumber
                         addressText.text = finalContact.Address
                     }
                 }
+            }
+
+            imageView.setOnClickListener {
+                sharedViewModel.updateData(currentIndex)
+                sharedViewModel.updateFlag(true)
+                sharedViewModel.updateTab(2)
             }
 
             handler.post(rouletteTask)
