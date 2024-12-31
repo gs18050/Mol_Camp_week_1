@@ -279,7 +279,7 @@ class MapFragment : Fragment() {
             .error(R.drawable.error)
             .into(imgView)
 
-        val buttonView = view.findViewById<Button>(R.id.label_contact_button)
+        val buttonView = view.findViewById<ImageButton>(R.id.label_contact_button)
         buttonView.setOnClickListener {
             val phone_number = data.PhoneNumber
             val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone_number"))
