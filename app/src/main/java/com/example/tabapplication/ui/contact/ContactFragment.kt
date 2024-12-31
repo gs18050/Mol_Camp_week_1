@@ -144,7 +144,7 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        lateinit var imageResStrs: List<String>
+        var imageResStrs: MutableList<String> = mutableListOf()
         val requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) {
