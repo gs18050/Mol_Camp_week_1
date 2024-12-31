@@ -128,7 +128,6 @@ class ImageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         _binding = FragmentImageBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -176,6 +175,5 @@ class ImageFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
     }
 }

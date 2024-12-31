@@ -128,7 +128,6 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
 
-        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -185,7 +184,6 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
 
         searchEditText.setOnFocusChangeListener { v, hasFocus ->
             val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
             if (hasFocus) {
                 imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
             }
@@ -288,7 +286,6 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
