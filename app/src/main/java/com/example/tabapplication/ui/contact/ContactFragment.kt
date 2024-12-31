@@ -162,7 +162,7 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        val imageView3 = root.findViewById<ImageView>(R.id.imageView3)
+        val imageView3 = root.findViewById<Button>(R.id.imageView3)
         imageView3.setOnClickListener {
             val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.popup_layout, null)
 
