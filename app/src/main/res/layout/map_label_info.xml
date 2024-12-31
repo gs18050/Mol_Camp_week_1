@@ -1,72 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/rounded_top_background"
-    android:clipToOutline="true">
-
-    <!-- 텍스트와 버튼을 가로로 배치 -->
-
-    <ImageView
-        android:id="@+id/label_info_image"
-        android:layout_width="match_parent"
-        android:layout_height="500px"
-        android:layout_marginTop="50px"
-        android:layout_marginStart="50px"
-        android:layout_marginEnd="50px"
-        android:background="@drawable/rounded_background"
-        android:clipToOutline="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/splash_screen" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="50px">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- 텍스트 뷰를 감싸는 레이아웃 -->
-        <LinearLayout
-            android:layout_width="0dp"
+        <!-- 이미지와 텍스트를 카드뷰로 감싸기 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="20px"
-            android:orientation="vertical">
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+>
 
-            <!-- 상호명 -->
-            <TextView
-                android:id="@+id/label_info_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <!-- 주소 -->
-            <TextView
-                android:id="@+id/label_info_adress"
+                <!-- 이미지 -->
+                <ImageView
+                    android:id="@+id/label_info_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/splash_screen" />
+
+                <!-- 텍스트 뷰 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- 상호명 -->
+                    <TextView
+                        android:id="@+id/label_info_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <!-- 주소 -->
+                    <TextView
+                        android:id="@+id/label_info_adress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- 버튼을 카드뷰로 감싸기 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp">
+
+            <Button
+                android:id="@+id/label_contact_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15px"
+                android:background="@color/blue"
+                android:padding="16dp"
+                android:text="전화 걸기"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-        <!-- 이미지 버튼 -->
     </LinearLayout>
 
-    <Button
-        android:id="@+id/label_contact_button"
-        android:layout_width="match_parent"
-        android:layout_height="160px"
-        android:layout_marginStart="50px"
-        android:layout_marginEnd="50px"
-        android:layout_marginBottom="30px"
-        android:layout_marginTop="30px"
-        android:background="@drawable/rounded_button"
-        android:text="전화 걸기"
-        android:textColor="@color/white"/>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>
