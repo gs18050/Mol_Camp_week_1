@@ -29,27 +29,31 @@ import com.example.tabapplication.MainActivity
 import com.example.tabapplication.SharedViewModel
 import com.example.tabapplication.ui.contact.ContactAdapter
 
-class ImageAdapter(private val imagePaths: List<String>,
-    private val onItemClick: (Int,String)->Unit
+class ImageAdapter(
+    private val imagePaths: List<String>,
+    private val onItemClick: (Int, String) -> Unit
 ) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
-    inner class ImageViewHolder(private val binding: FragmentImageBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val imageView: ImageView = itemView.findViewById(R.id.itemImageView) // item_image.xml에서 직접 찾기
+
         fun bind(pos: Int, imagePath: String) {
-            Glide.with(binding.imageView.context)
+            Glide.with(imageView.context)
                 .load(imagePath)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.error)
-                .into(binding.imageView)
+                .into(imageView)
 
-            binding.root.setOnClickListener {
-                onItemClick(pos,imagePath)
+            itemView.setOnClickListener {
+                onItemClick(pos, imagePath)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val binding = FragmentImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ImageViewHolder(binding)
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_image, parent, false)
+        return ImageViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
@@ -58,6 +62,7 @@ class ImageAdapter(private val imagePaths: List<String>,
 
     override fun getItemCount() = imagePaths.size
 }
+
 
 fun getGalleryImages(context: Context): List<String> {
     val imageList = mutableListOf<String>()
@@ -141,11 +146,11 @@ class ImageFragment : Fragment() {
         val scaleY = scale
         val dx = (imageViewWidth - intrinsicWidth * scaleX) / 2
         val dy = (imageViewHeight - intrinsicHeight * scaleY) / 2
-        Log.d("Character Image imageViewWidth", imageViewWidth.toString())
+        /*Log.d("Character Image imageViewWidth", imageViewWidth.toString())
         Log.d("Character Image imageViewHeight", imageViewHeight.toString())
         Log.d("Character Image characterWidth", (intrinsicWidth*scaleX).toString())
         Log.d("Character Image characterHeight", (intrinsicHeight*scaleY).toString())
-        Log.d("Character Image dx dy", dx.toString()+dy.toString())
+        Log.d("Character Image dx dy", dx.toString()+dy.toString())*/
 
         matrix.setScale(scaleX, scaleY)
         matrix.postTranslate(dx, dy)
