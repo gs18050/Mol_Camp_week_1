@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -201,6 +202,7 @@ class MapFragment : Fragment() {
     }
 
     private fun showBottomSheet(data: ContactInfo) {
+        Log.d("ShowBottomSheet", data.Name)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.map_label_info, null)
 
@@ -213,7 +215,7 @@ class MapFragment : Fragment() {
             .error(R.drawable.error)
             .into(imgView)
 
-        val buttonView = view.findViewById<ImageButton>(R.id.label_contact_button)
+        val buttonView = view.findViewById<Button>(R.id.label_contact_button)
         buttonView.setOnClickListener {
             val phone_number = data.PhoneNumber
             val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone_number"))
