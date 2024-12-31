@@ -100,8 +100,6 @@ class MapFragment : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         getPermission(permissionList)
 
-        setupSearchFunctionality()
-
         lateinit var imageResStrs: List<String>
         val requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -124,50 +122,11 @@ class MapFragment : Fragment() {
         return root
     }
 
-    private fun setupSearchFunctionality() {
-        val searchEditText = binding.searchMap
-        searchEditText.setOnEditorActionListener { v, actionId, event ->
-            val query = searchEditText.text.toString().trim()
-            if (query.isNotEmpty()) {
-                val matchingData = dataset.find { it.Name.contains(query, ignoreCase = true) }
-                if (matchingData != null) {
-                    moveToLocation(matchingData.latitude, matchingData.longitude)
-                    sharedViewModel.updateData(dataset.indexOf(matchingData))
-                    sharedViewModel.updateFlag(true)
-                    true
-                } else {
-                    Toast.makeText(requireContext(), "No matching location found", Toast.LENGTH_SHORT).show()
-                    false
-                }
-            } else {
-                Toast.makeText(requireContext(), "Enter a search query", Toast.LENGTH_SHORT).show()
-                false
-            }
-        }
-    }
-
     private fun moveToLocation(latitude: Double, longitude: Double) {
         if (kakaoMap != null) {
             val location = LatLng.from(latitude, longitude)
             val cameraUpdate: CameraUpdate = CameraUpdateFactory.newCenterPosition(location, 18)
             kakaoMap!!.moveCamera(cameraUpdate)
-        }
-    }
-
-    private fun highlightLabel(data: ContactInfo) {
-        val index = dataset.indexOf(data)
-
-        if (index != -1 && kakaoMap != null) {
-            val labelManager = kakaoMap!!.labelManager
-            val location = LatLng.from(data.latitude, data.longitude)
-            val styles = labelManager?.addLabelStyles(
-                LabelStyles.from(
-                    LabelStyle.from(R.drawable.current_ping_image).setZoomLevel(5)
-                )
-            )
-            val options = LabelOptions.from(location).setStyles(styles).setTag(index)
-            val layer = labelManager?.layer
-            layer?.addLabel(options)
         }
     }
 
