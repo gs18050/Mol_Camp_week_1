@@ -64,7 +64,7 @@ class ImageAdapter(
 }
 
 
-fun getGalleryImages(context: Context): List<String> {
+fun getGalleryImages(context: Context): MutableList<String> {
     val imageList = mutableListOf<String>()
 
     val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI

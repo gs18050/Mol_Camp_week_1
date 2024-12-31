@@ -13,6 +13,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -138,10 +139,12 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         dataset = gson.fromJson(json, dataListType)
         searchEditText = root.findViewById(R.id.searchEditText)
 
+        searchEditText.clearFocus()
+
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        lateinit var imageResStrs: List<String>
+        var imageResStrs: MutableList<String> = mutableListOf()
         val requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) {
@@ -177,9 +180,17 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
 
             override fun afterTextChanged(s: Editable?) {}
         })
-        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+
+        searchEditText.clearFocus()
+
+        searchEditText.setOnFocusChangeListener { v, hasFocus ->
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
             if (hasFocus) {
-                requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+                imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
+            }
+            else {
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
             }
         }
 
@@ -278,6 +289,8 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
     override fun onResume() {
         super.onResume()
         requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun filterList(query: String) {

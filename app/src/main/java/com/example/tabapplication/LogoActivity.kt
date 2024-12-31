@@ -1,6 +1,7 @@
 package com.example.tabapplication
 
 import android.content.Intent
+import android.graphics.Matrix
 import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
@@ -19,42 +20,43 @@ class LogoActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         setContentView(R.layout.activity_logo)
 
-        val backgroundImageView = findViewById<ImageView>(R.id.logo_background)
         val nupjukImageView = findViewById<ImageView>(R.id.logo_nupjuk)
-        val titleImageView = findViewById<ImageView>(R.id.logo_title)
 
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
-        Glide.with(this)
-            .load(R.drawable.ic_logo_background)
-            .override(displayMetrics.widthPixels, displayMetrics.heightPixels)
-            .centerCrop()
-            .into(backgroundImageView)
 
         fun setLayoutParams(layoutParams: ViewGroup.MarginLayoutParams, left: Int, top: Int, right: Int, bottom: Int, width: Int, height: Int): ViewGroup.MarginLayoutParams {
             layoutParams.setMargins(left, top, right, bottom)
             layoutParams.width=width
             layoutParams.height=height
+
             return layoutParams
         }
 
-        nupjukImageView.layoutParams=setLayoutParams(
-            nupjukImageView.layoutParams as ViewGroup.MarginLayoutParams,
-            0,
-            (displayMetrics.heightPixels*0.2).toInt(),
-            0,
-            0,
-            (displayMetrics.widthPixels*0.65).toInt(),
-            (displayMetrics.widthPixels*0.65/1044*775).toInt())
+        val scale = 0.2
+        val aspectRatio = 1238.0 / 791.0
 
-        titleImageView.layoutParams=setLayoutParams(
-            titleImageView.layoutParams as ViewGroup.MarginLayoutParams,
-            0,
-            (displayMetrics.heightPixels*0.5).toInt(),
-            0,
-            0,
-            (displayMetrics.widthPixels*0.9).toInt(),
-            (displayMetrics.widthPixels*0.9/1044*775).toInt())
+        val scaledWidth = (displayMetrics.widthPixels * scale).toInt()
+        val scaledHeight = (scaledWidth * aspectRatio).toInt()
+
+        val horizontalMargin = ((displayMetrics.widthPixels - scaledWidth) / 2).toInt()
+        val verticalMargin = ((displayMetrics.heightPixels - scaledHeight) / 2).toInt()
+
+        nupjukImageView.layoutParams = setLayoutParams(
+            nupjukImageView.layoutParams as ViewGroup.MarginLayoutParams,
+            horizontalMargin,
+            verticalMargin,
+            horizontalMargin,
+            verticalMargin,
+            scaledWidth,
+            scaledHeight
+        )
+
+        Glide.with(this)
+            .load(R.drawable.menu_nupjuk)
+            .override(scaledWidth, scaledHeight)
+            .centerInside()
+            .into(nupjukImageView)
 
         fun applyAnimation(imageViews: List<ImageView>, animation: Animation, visible: Boolean) {
             for (imv in imageViews) {
@@ -64,21 +66,11 @@ class LogoActivity : AppCompatActivity() {
             }
         }
 
-        //val fadeIn = AlphaAnimation(0.1f, 1f)
-        //fadeIn.duration = 2000
-        //applyAnimation(listOf(backgroundImageView,nupjukImageView,titleImageView),fadeIn,true)
-
         Handler().postDelayed({
-            val fadeOut = AlphaAnimation(1f, 0.1f)
-            fadeOut.duration = 2000
-            //applyAnimation(listOf(backgroundImageView,nupjukImageView,titleImageView),fadeOut,false)
-
-            Handler().postDelayed({
-                val intent = Intent(this@LogoActivity, MainActivity::class.java)
-                startActivity(intent)
-                overridePendingTransition(0, 0)
-                finish()
-            }, fadeOut.duration)
-        }, 0)
+            val intent = Intent(this@LogoActivity, MainActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
+            finish()
+        }, 2000)
     }
 }
