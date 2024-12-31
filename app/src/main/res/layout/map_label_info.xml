@@ -27,13 +27,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- 이미지 -->
-                <ImageView
-                    android:id="@+id/label_info_image"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/splash_screen" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp">
+                    <!-- 이미지 -->
+                    <ImageView
+                        android:id="@+id/label_info_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/splash_screen" />
+                </androidx.cardview.widget.CardView>
 
                 <!-- 텍스트와 아이콘을 포함한 레이아웃 -->
 
