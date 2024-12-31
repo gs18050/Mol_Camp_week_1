@@ -17,9 +17,14 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Matrix
+import android.util.DisplayMetrics
+import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.example.tabapplication.MainActivity
 import com.example.tabapplication.SharedViewModel
 import com.example.tabapplication.ui.contact.ContactAdapter
@@ -91,7 +96,7 @@ class ImageFragment : Fragment() {
 
     private fun setupRecyclerView(imagePaths: List<String>) {
         val imageAdapter = ImageAdapter(imagePaths) { pos, imagePath ->
-            val mainActivity = requireActivity() as MainActivity
+            //val mainActivity = requireActivity() as MainActivity
             sharedViewModel.updateData(pos)
             sharedViewModel.updateFlag(true)
             sharedViewModel.updateTab(2)
@@ -120,6 +125,32 @@ class ImageFragment : Fragment() {
 
         _binding = FragmentImageBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val displayMetrics = DisplayMetrics()
+        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val characterImage: ImageView = binding.characterImage
+        val scale = 0.1f
+        characterImage.scaleType = ImageView.ScaleType.MATRIX
+        val matrix = Matrix()
+        val drawable = resources.getDrawable(R.drawable.menu_nupjuk, null)
+        val intrinsicWidth = drawable.intrinsicWidth
+        val intrinsicHeight = drawable.intrinsicHeight
+        val imageViewWidth = displayMetrics.widthPixels
+        val imageViewHeight = 600
+        val scaleX = scale
+        val scaleY = scale
+        val dx = (imageViewWidth - intrinsicWidth * scaleX) / 2
+        val dy = (imageViewHeight - intrinsicHeight * scaleY) / 2
+        Log.d("Character Image imageViewWidth", imageViewWidth.toString())
+        Log.d("Character Image imageViewHeight", imageViewHeight.toString())
+        Log.d("Character Image characterWidth", (intrinsicWidth*scaleX).toString())
+        Log.d("Character Image characterHeight", (intrinsicHeight*scaleY).toString())
+        Log.d("Character Image dx dy", dx.toString()+dy.toString())
+
+        matrix.setScale(scaleX, scaleY)
+        matrix.postTranslate(dx, dy)
+        characterImage.imageMatrix = matrix
+        characterImage.setImageDrawable(drawable)
 
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             val imageResStrs = getGalleryImages(requireContext())

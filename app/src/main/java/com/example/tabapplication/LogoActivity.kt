@@ -63,14 +63,14 @@ class LogoActivity : AppCompatActivity() {
             }
         }
 
-        val fadeIn = AlphaAnimation(0.1f, 1f)
-        fadeIn.duration = 2000
-        applyAnimation(listOf(backgroundImageView,nupjukImageView,titleImageView),fadeIn,true)
+        //val fadeIn = AlphaAnimation(0.1f, 1f)
+        //fadeIn.duration = 2000
+        //applyAnimation(listOf(backgroundImageView,nupjukImageView,titleImageView),fadeIn,true)
 
         Handler().postDelayed({
             val fadeOut = AlphaAnimation(1f, 0.1f)
-            fadeOut.duration = 1500
-            applyAnimation(listOf(backgroundImageView,nupjukImageView,titleImageView),fadeOut,false)
+            fadeOut.duration = 2000
+            //applyAnimation(listOf(backgroundImageView,nupjukImageView,titleImageView),fadeOut,false)
 
             Handler().postDelayed({
                 val intent = Intent(this@LogoActivity, MainActivity::class.java)
@@ -78,6 +78,6 @@ class LogoActivity : AppCompatActivity() {
                 overridePendingTransition(0, 0)
                 finish()
             }, fadeOut.duration)
-        }, 2000)
+        }, 0)
     }
 }
