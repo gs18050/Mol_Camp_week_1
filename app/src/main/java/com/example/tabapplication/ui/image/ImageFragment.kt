@@ -128,6 +128,7 @@ class ImageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         _binding = FragmentImageBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -141,16 +142,17 @@ class ImageFragment : Fragment() {
         val intrinsicWidth = drawable.intrinsicWidth
         val intrinsicHeight = drawable.intrinsicHeight
         val imageViewWidth = displayMetrics.widthPixels
-        val imageViewHeight = 600
+        val imageViewHeight = (displayMetrics.heightPixels*0.2).toInt()
+
+        val layoutParams = characterImage.layoutParams
+        layoutParams.width = imageViewWidth
+        layoutParams.height = imageViewHeight
+        characterImage.layoutParams = layoutParams
+
         val scaleX = scale
         val scaleY = scale
         val dx = (imageViewWidth - intrinsicWidth * scaleX) / 2
         val dy = (imageViewHeight - intrinsicHeight * scaleY) / 2
-        /*Log.d("Character Image imageViewWidth", imageViewWidth.toString())
-        Log.d("Character Image imageViewHeight", imageViewHeight.toString())
-        Log.d("Character Image characterWidth", (intrinsicWidth*scaleX).toString())
-        Log.d("Character Image characterHeight", (intrinsicHeight*scaleY).toString())
-        Log.d("Character Image dx dy", dx.toString()+dy.toString())*/
 
         matrix.setScale(scaleX, scaleY)
         matrix.postTranslate(dx, dy)

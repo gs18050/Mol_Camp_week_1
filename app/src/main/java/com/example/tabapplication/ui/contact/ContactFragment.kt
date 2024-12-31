@@ -117,6 +117,7 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
 
+        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -243,6 +244,11 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
     }
 
     private fun filterList(query: String) {

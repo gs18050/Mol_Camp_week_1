@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Kotlin에서 사이즈 지정 -->
     <ImageView
         android:id="@+id/character_image"
         android:layout_width="match_parent"
-        android:layout_height="600px"
+        android:layout_height="500px"
         android:scaleType="centerCrop"
         android:background="@color/skyblue"
         android:src="@drawable/menu_nupjuk"
