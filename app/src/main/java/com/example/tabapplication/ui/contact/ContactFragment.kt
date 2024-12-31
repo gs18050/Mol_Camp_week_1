@@ -162,6 +162,11 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
 
             override fun afterTextChanged(s: Editable?) {}
         })
+        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+            }
+        }
 
         val imageView3 = root.findViewById<Button>(R.id.imageView3)
         imageView3.setOnClickListener {
