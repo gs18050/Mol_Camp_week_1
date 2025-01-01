@@ -127,7 +127,7 @@ Splash Screen이 표시됩니다.
 - 댕처레전드 짝꿍 준호야 고맙다☺️
 </aside>
 
-![ic_logo_old.jpg](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/2bbcb155-5c8c-42dd-ad03-bd83187173a8/ic_logo_old.jpg)
+<img src="https://github.com/user-attachments/assets/e4e0380f-718e-414b-ae14-b044286627ab">
 
 ### 넙죽이 픽 apk
 
