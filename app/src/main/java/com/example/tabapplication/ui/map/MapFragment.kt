@@ -32,7 +32,7 @@ import com.example.tabapplication.SharedViewModel
 import com.example.tabapplication.databinding.FragmentMapBinding
 import com.example.tabapplication.ui.contact.ContactInfo
 import com.example.tabapplication.ui.contact.readJsonFromAssets
-import com.example.tabapplication.ui.image.getGalleryImages
+import com.example.tabapplication.ui.image.getDrawableImages
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.KakaoMapSdk
@@ -104,20 +104,21 @@ class MapFragment : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         getPermission(permissionList)
 
-        lateinit var imageResStrs: List<String>
-        val requestPermissionLauncher =
+        lateinit var imageResStrs: List<Int>
+        /*val requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) {
-                    imageResStrs = getGalleryImages(requireContext())
+                    imageResStrs = getDrawableImages()
                 }else {
                     Toast.makeText(requireContext(), "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            imageResStrs = getGalleryImages(requireContext())
+            imageResStrs = getDrawableImages()
         } else {
             requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
+        }*/
+        imageResStrs = getDrawableImages()
 
         for (i in 0 until imageResStrs.size) {
             dataset[i].imagePath = imageResStrs[i]

@@ -30,7 +30,7 @@ import com.example.tabapplication.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.tabapplication.SharedViewModel
-import com.example.tabapplication.ui.image.getGalleryImages
+import com.example.tabapplication.ui.image.getDrawableImages
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.IOException
@@ -43,7 +43,7 @@ data class ContactInfo(
     val Address: String,
     val latitude: Double,
     val longitude: Double,
-    var imagePath: String)
+    var imagePath: Int)
 
 class ContactAdapter(private var dataset: List<ContactInfo>,
                      private val listener: OnItemClickListener,
@@ -148,20 +148,21 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        var imageResStrs: MutableList<String> = mutableListOf()
-        val requestPermissionLauncher =
+        var imageResStrs: MutableList<Int> = mutableListOf()
+        /*val requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) {
-                    imageResStrs = getGalleryImages(requireContext())
+                    imageResStrs = getDrawableImages()
                 }else {
                     Toast.makeText(requireContext(), "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            imageResStrs = getGalleryImages(requireContext())
+            imageResStrs = getDrawableImages()
         } else {
             requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
+        }*/
+        imageResStrs = getDrawableImages()
 
         for (i in 0 until imageResStrs.size) {
             dataset[i].imagePath = imageResStrs[i]

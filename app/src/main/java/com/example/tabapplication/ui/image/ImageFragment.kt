@@ -30,22 +30,22 @@ import com.example.tabapplication.SharedViewModel
 import com.example.tabapplication.ui.contact.ContactAdapter
 
 class ImageAdapter(
-    private val imagePaths: List<String>,
-    private val onItemClick: (Int, String) -> Unit
+    private val imageResIds: List<Int>,
+    private val onItemClick: (Int, Int) -> Unit
 ) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageView: ImageView = itemView.findViewById(R.id.itemImageView) // item_image.xml에서 직접 찾기
+        private val imageView: ImageView = itemView.findViewById(R.id.itemImageView)
 
-        fun bind(pos: Int, imagePath: String) {
+        fun bind(pos: Int, imageResId: Int) {
             Glide.with(imageView.context)
-                .load(imagePath)
+                .load(imageResId) // Load drawable resource ID
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.error)
                 .into(imageView)
 
             itemView.setOnClickListener {
-                onItemClick(pos, imagePath)
+                onItemClick(pos, imageResId)
             }
         }
     }
@@ -57,14 +57,14 @@ class ImageAdapter(
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        holder.bind(position, imagePaths[position])
+        holder.bind(position, imageResIds[position])
     }
 
-    override fun getItemCount() = imagePaths.size
+    override fun getItemCount() = imageResIds.size
 }
 
 
-fun getGalleryImages(context: Context): MutableList<String> {
+/*fun getGalleryImages(context: Context): MutableList<String> {
     val imageList = mutableListOf<String>()
 
     val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -91,6 +91,31 @@ fun getGalleryImages(context: Context): MutableList<String> {
     }
 
     return imageList
+}*/
+
+fun getDrawableImages(): MutableList<Int> {
+    return mutableListOf(
+        R.drawable.foodimage1,
+        R.drawable.foodimage2,
+        R.drawable.foodimage3,
+        R.drawable.foodimage4,
+        R.drawable.foodimage5,
+        R.drawable.foodimage6,
+        R.drawable.foodimage7,
+        R.drawable.foodimage8,
+        R.drawable.foodimage9,
+        R.drawable.foodimage10,
+        R.drawable.foodimage11,
+        R.drawable.foodimage12,
+        R.drawable.foodimage13,
+        R.drawable.foodimage14,
+        R.drawable.foodimage15,
+        R.drawable.foodimage16,
+        R.drawable.foodimage17,
+        R.drawable.foodimage18,
+        R.drawable.foodimage19,
+        R.drawable.foodimage20
+    )
 }
 
 class ImageFragment : Fragment() {
@@ -99,7 +124,7 @@ class ImageFragment : Fragment() {
     private val binding get() = _binding!!
     val sharedViewModel: SharedViewModel by activityViewModels()
 
-    private fun setupRecyclerView(imagePaths: List<String>) {
+    private fun setupRecyclerView(imagePaths: List<Int>) {
         val imageAdapter = ImageAdapter(imagePaths) { pos, imagePath ->
             //val mainActivity = requireActivity() as MainActivity
             sharedViewModel.updateData(pos)
@@ -112,15 +137,15 @@ class ImageFragment : Fragment() {
         recyclerView.adapter = imageAdapter
     }
 
-    private val requestPermissionLauncher =
+    /*private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                val imageResStrs = getGalleryImages(requireContext())
+                val imageResStrs = getDrawableImages()
                 setupRecyclerView(imageResStrs)
             }else {
                 Toast.makeText(requireContext(), "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
             }
-        }
+        }*/
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -173,10 +198,12 @@ class ImageFragment : Fragment() {
         characterImage.setImageDrawable(drawable)
 
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            val imageResStrs = getGalleryImages(requireContext())
+            val imageResStrs = getDrawableImages()
             setupRecyclerView(imageResStrs)
         } else {
-            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            //requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            val imageResStrs = getDrawableImages()
+            setupRecyclerView(imageResStrs)
         }
 
         return root
