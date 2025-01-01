@@ -15,17 +15,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/ping_search"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_weight="1"
-        android:background="@null"
-        android:hint="search ping"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:textColor="#8B95A1"
-        android:textColorHint="#8B95A1"
-        android:textSize="16sp" />
+    <!-- 검색바 -->
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="140px"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="#F2F3F5"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2">
+
+        <!-- 검색 아이콘 -->
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="12dp"
+            android:contentDescription="Search icon"
+            android:src="@drawable/search"
+            app:tint="#8B95A1" />
+
+        <!-- 검색 필드 -->
+        <EditText
+            android:id="@+id/ping_search"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="맛집 검색"
+            android:fontFamily="sans-serif"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingStart="8dp"
+            android:textColor="#8B95A1"
+            android:textColorHint="#8B95A1"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 </FrameLayout>

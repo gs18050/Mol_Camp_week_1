@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/character_image"
         android:layout_width="match_parent"
-        android:layout_height="500px"
+        android:layout_height="220dp"
         android:scaleType="centerCrop"
         android:background="@color/skyblue"
         android:src="@drawable/menu_nupjuk"
@@ -23,6 +23,7 @@
         android:layout_marginTop="20dp"
         android:paddingStart="20dp"
         android:text="넙죽이 픽 TOP20"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:fontFamily="sans-serif-black"
         app:layout_constraintEnd_toEndOf="parent"
