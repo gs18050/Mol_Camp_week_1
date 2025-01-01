@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.tabapplication.databinding.ActivityMainBinding
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 
 class SharedViewModel : ViewModel() {
     private val _sharedData = MutableLiveData<Int>()
@@ -87,10 +88,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun navigateToTab(tabIndex: Int) {
+        val navOptions = NavOptions.Builder()
+            .setEnterAnim(R.anim.slide_in_right)
+            .setExitAnim(R.anim.slide_out_left)
+            .setPopEnterAnim(R.anim.slide_in_left)
+            .setPopExitAnim(R.anim.slide_out_right)
+            .build()
+
         when (tabIndex) {
-            0 -> navController.navigate(R.id.navigation_tab1)
-            1 -> navController.navigate(R.id.navigation_tab2)
-            2 -> navController.navigate(R.id.navigation_tab3)
+            0 -> navController.navigate(R.id.navigation_tab1, null, navOptions)
+            1 -> navController.navigate(R.id.navigation_tab2, null, navOptions)
+            2 -> navController.navigate(R.id.navigation_tab3, null, navOptions)
         }
     }
 }
