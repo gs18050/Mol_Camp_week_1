@@ -146,6 +146,7 @@ class MapFragment : Fragment() {
                         imm.hideSoftInputFromWindow(editText.windowToken, 0)
                         sharedViewModel.updatePing(ind)
                         sharedViewModel.setTabChanging(true)
+                        sharedViewModel.setTabDir(0)
                         sharedViewModel.updateTab(1)
                         true
                     }

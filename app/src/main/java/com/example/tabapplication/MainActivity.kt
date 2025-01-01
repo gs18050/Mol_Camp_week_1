@@ -73,17 +73,17 @@ class MainActivity : AppCompatActivity() {
             val currentTab = sharedViewModel.currentTab.value ?: 0
             when (item.itemId) {
                 R.id.navigation_tab1 -> {
-                    sharedViewModel.setTabDir(if (currentTab > 0) 2 else 1)
+                    sharedViewModel.setTabDir(if (currentTab > 0) 2 else 0)
                     sharedViewModel.updateTab(0)
                     true
                 }
                 R.id.navigation_tab2 -> {
-                    sharedViewModel.setTabDir(if (currentTab < 1) 1 else 2)
+                    sharedViewModel.setTabDir(if (currentTab == 0) 1 else if (currentTab==1) 0 else 2)
                     sharedViewModel.updateTab(1)
                     true
                 }
                 R.id.navigation_tab3 -> {
-                    sharedViewModel.setTabDir(if (currentTab < 2) 1 else 2)
+                    sharedViewModel.setTabDir(if (currentTab < 2) 1 else 0)
                     sharedViewModel.updateTab(2)
                     true
                 }

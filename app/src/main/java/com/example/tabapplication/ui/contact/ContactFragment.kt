@@ -165,6 +165,7 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         adapter = ContactAdapter(dataset, this) { pos, ->
             //val mainActivity = requireActivity() as MainActivity
             sharedViewModel.updateData(pos)
+            sharedViewModel.setTabDir(1)
             sharedViewModel.updateTab(2)
         }
 
@@ -213,6 +214,7 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
             val endTime = System.currentTimeMillis() + duration
             lateinit var phoneText: String
             var currentIndex = -1
+            var flag = 0
 
             val rouletteTask = object : Runnable {
                 override fun run() {
@@ -234,6 +236,7 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
                     } else {
                         val finalIndex = Random().nextInt(dataset.size)
                         currentIndex=finalIndex
+                        flag = 1
                         val finalContact = dataset[finalIndex]
 
                         Glide.with(requireContext())
@@ -250,8 +253,12 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
             }
 
             imageView.setOnClickListener {
-                sharedViewModel.updateData(currentIndex)
-                sharedViewModel.updateTab(2)
+                if (flag == 1) {
+                    sharedViewModel.updateData(currentIndex)
+                    sharedViewModel.setTabDir(1)
+                    sharedViewModel.updateTab(2)
+                    dialog.dismiss()
+                }
             }
 
             handler.post(rouletteTask)

@@ -103,6 +103,7 @@ class ImageFragment : Fragment() {
         val imageAdapter = ImageAdapter(imagePaths) { pos, imagePath ->
             //val mainActivity = requireActivity() as MainActivity
             sharedViewModel.updateData(pos)
+            sharedViewModel.setTabDir(1)
             sharedViewModel.updateTab(2)
         }
         val numColumns = 2
@@ -137,6 +138,7 @@ class ImageFragment : Fragment() {
                     if (flag) {
                         sharedViewModel.updateData(ind)
                         sharedViewModel.setTabChanging(false)
+                        sharedViewModel.setTabDir(0)
                         sharedViewModel.updateTab(2)
                     }
                 }
