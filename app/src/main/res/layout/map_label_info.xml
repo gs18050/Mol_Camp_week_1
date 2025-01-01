@@ -12,32 +12,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="10dp">
 
-        <!-- 이미지와 텍스트를 카드뷰로 감싸기 -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="195dp"
-            android:layout_marginBottom="16dp"
+            android:layout_height="200dp"
             app:cardCornerRadius="16dp">
 
-            <androidx.cardview.widget.CardView
+            <ImageView
+                android:id="@+id/label_info_image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
-                <!-- 이미지 -->
-                <ImageView
-                    android:id="@+id/label_info_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/splash_screen" />
-            </androidx.cardview.widget.CardView>
-
-            <!-- 텍스트와 아이콘을 포함한 레이아웃 -->
-
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/splash_screen" />
 
         </androidx.cardview.widget.CardView>
 
@@ -50,10 +37,13 @@
             android:orientation="horizontal">
 
             <!-- 상호명과 주소 -->
+
+            <!-- 전화 아이콘 -->
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -63,6 +53,7 @@
                     android:id="@+id/label_info_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -70,14 +61,14 @@
                 <!-- 주소 -->
                 <TextView
                     android:id="@+id/label_info_adress"
-                    android:layout_width="8dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
                     android:layout_marginTop="4dp"
                     android:textColor="#777777"
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- 전화 아이콘 -->
             <ImageButton
                 android:id="@+id/label_contact_button"
                 android:layout_width="wrap_content"
