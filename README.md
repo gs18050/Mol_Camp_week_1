@@ -42,7 +42,7 @@
 
 ---
 
-[splashscreen.mp4](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/be8f0e2f-a4d9-4e76-b2c3-628e85282cf0/splashscreen.mp4)
+<img src="https://github.com/user-attachments/assets/53a6c28e-1c98-44c7-8c3e-7ac4132aae87">
 
 - 앱을 처음 실행하면 앱 로고를 보여주는 
 Splash Screen이 표시됩니다.
@@ -58,7 +58,7 @@ Splash Screen이 표시됩니다.
 
 대전 지역의 맛집 정보들을 보여주는 탭
 
-[Tap1_1.mp4](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/b2982cd2-a4f5-4665-b341-91f00c0e3356/Tap1_1.mp4)
+<img src="https://github.com/user-attachments/assets/c71c36d7-da63-4131-92aa-5ca24ead6203">
 
 - 각 맛집마다 이미지, 가게 이름, 주소를 표시하며, 
 전화 걸기 버튼이 제공됩니다. 전화 걸기 버튼을 
@@ -70,7 +70,7 @@ Splash Screen이 표시됩니다.
 - 특정 맛집의 이미지를 선택할 경우 Tab3에 있는 
 맛집 지도에서 위치를 보여줍니다.
 
-[Tap2.mp4](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/ce0248df-8bc7-471b-b126-c1e8138833f8/Tap2.mp4)
+<img src="https://github.com/user-attachments/assets/caa822b0-d25d-462c-9830-617767f46c3b">
 
 - 상단에 있는 검색창을 사용해 맛집을 검색할 수 있습니다.
 - 오늘의 넙죽이 픽 버튼을 누를 경우 전체 맛집 리스트에서 랜덤으로 넙죽이가 점심/저녁 식당을 추천해줍니다.
@@ -82,7 +82,7 @@ Splash Screen이 표시됩니다.
 
 음식 사진을 위주로 보고 맛집을 고를 수 있는 탭
 
-[Tap2.mp4](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/13ff7322-e504-4a36-80c0-e4dd8eea3cc0/Tap2.mp4)
+<img src="https://github.com/user-attachments/assets/dd68175c-a085-4844-be34-ddc68cdf642a">
 
 - 맛집들의 음식 사진들을 보며 메뉴를 고를 수 있습니다.
 - 각 이미지를 누를 경우 해당하는 맛집의 위치를 Tab3의 지도에서 보여줍니다.
@@ -93,9 +93,9 @@ Splash Screen이 표시됩니다.
 
 지도를 통해 맛집들의 위치를 볼 수 있는 탭
 
-[Tap3_1.mp4](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/32c514c1-513c-4f34-9778-b7122c6a4a85/Tap3_1.mp4)
+<img src="https://github.com/user-attachments/assets/1c630795-86eb-4f87-8338-b0630f04ef3c">
 
-[Tap3_2.mp4](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/ada2f27e-edc4-4da4-9691-39ba935d0370/Tap3_2.mp4)
+<img src="https://github.com/user-attachments/assets/61a047a9-6d11-4a98-9580-f0e2ad6b2943">
 
 - 카카오맵 API를 사용하여 지도를 보여줍니다.
 - 처음 탭에 들어갈 경우 현재 위치를 지도에서 보여주며 맛집들의 핑이 지도에 찍혀있습니다.
