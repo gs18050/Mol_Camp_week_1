@@ -273,8 +273,9 @@ class MapFragment : Fragment() {
         bottomSheetDialog.setContentView(view)
 
         // 배경제거!!
-        bottomSheetDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         bottomSheetDialog.show()
+        bottomSheetDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
     }
 
     override fun onDestroyView() {
