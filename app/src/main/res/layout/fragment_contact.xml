@@ -23,7 +23,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2">
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        android:focusableInTouchMode="true"
+        android:focusable="true" >
 
         <!-- 검색 아이콘 -->
         <ImageView
@@ -49,7 +51,8 @@
             android:paddingStart="8dp"
             android:textColor="#8B95A1"
             android:textColorHint="#8B95A1"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:focusableInTouchMode="true" />
     </LinearLayout>
 
 

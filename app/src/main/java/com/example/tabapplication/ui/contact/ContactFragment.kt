@@ -131,6 +131,9 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        //window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        //setContentView(binding.root)
+
         val json = readJsonFromAssets(requireContext(), "contact_data.json")
         val gson=Gson()
         val dataListType = object : TypeToken<List<ContactInfo>>() {}.type
@@ -138,6 +141,8 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         dataset = gson.fromJson(json, dataListType)
         searchEditText = root.findViewById(R.id.searchEditText)
 
+        root.isFocusableInTouchMode = true
+        root.requestFocus()
         searchEditText.clearFocus()
 
         recyclerView = binding.recyclerView
@@ -293,8 +298,10 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
+        searchEditText.clearFocus()
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
+        searchEditText.clearFocus()
     }
 
     private fun filterList(query: String) {
