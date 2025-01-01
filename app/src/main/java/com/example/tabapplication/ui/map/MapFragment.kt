@@ -251,7 +251,7 @@ class MapFragment : Fragment() {
 
     private fun showBottomSheet(data: ContactInfo) {
         Log.d("ShowBottomSheet", data.Name)
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
         val view = layoutInflater.inflate(R.layout.map_label_info, null)
 
         view.findViewById<TextView>(R.id.label_info_name).text = data.Name
@@ -275,6 +275,7 @@ class MapFragment : Fragment() {
         // 배경제거!!
         bottomSheetDialog.show()
         bottomSheetDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
 
     }
 
