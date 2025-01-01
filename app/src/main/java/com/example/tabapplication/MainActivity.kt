@@ -24,6 +24,12 @@ class SharedViewModel : ViewModel() {
     val pingSelect: LiveData<Int> get() = _pingSelect
     private val _isTabChanging = MutableLiveData<Boolean>(false)
     val isTabChanging: LiveData<Boolean> get() = _isTabChanging
+    private val _tabDir = MutableLiveData<Int>(0)
+    val tabDir: LiveData<Int> get() = _tabDir
+
+    fun setTabDir(newDir: Int) {
+        _tabDir.value = newDir
+    }
 
     fun setTabChanging(isChanging: Boolean) {
         _isTabChanging.value = isChanging
@@ -64,16 +70,20 @@ class MainActivity : AppCompatActivity() {
 
         navView.setupWithNavController(navController)
         navView.setOnItemSelectedListener { item ->
+            val currentTab = sharedViewModel.currentTab.value ?: 0
             when (item.itemId) {
                 R.id.navigation_tab1 -> {
+                    sharedViewModel.setTabDir(if (currentTab > 0) 2 else 1)
                     sharedViewModel.updateTab(0)
                     true
                 }
                 R.id.navigation_tab2 -> {
+                    sharedViewModel.setTabDir(if (currentTab < 1) 1 else 2)
                     sharedViewModel.updateTab(1)
                     true
                 }
                 R.id.navigation_tab3 -> {
+                    sharedViewModel.setTabDir(if (currentTab < 2) 1 else 2)
                     sharedViewModel.updateTab(2)
                     true
                 }
@@ -83,17 +93,27 @@ class MainActivity : AppCompatActivity() {
 
         sharedViewModel.currentTab.observe(this) { tabIndex ->
             Log.d("currentTab", tabIndex.toString())
-            navigateToTab(tabIndex)
+            val direction = sharedViewModel.tabDir.value ?: 0
+            navigateToTab(tabIndex, direction)
         }
     }
 
-    fun navigateToTab(tabIndex: Int) {
-        val navOptions = NavOptions.Builder()
-            .setEnterAnim(R.anim.slide_in_right)
-            .setExitAnim(R.anim.slide_out_left)
-            .setPopEnterAnim(R.anim.slide_in_left)
-            .setPopExitAnim(R.anim.slide_out_right)
-            .build()
+    fun navigateToTab(tabIndex: Int, direction: Int) {
+        val navOptions = when (direction) {
+            1 -> NavOptions.Builder()
+                .setEnterAnim(R.anim.slide_in_right)
+                .setExitAnim(R.anim.slide_out_left)
+                .setPopEnterAnim(R.anim.slide_in_left)
+                .setPopExitAnim(R.anim.slide_out_right)
+                .build()
+            2 -> NavOptions.Builder()
+                .setEnterAnim(R.anim.slide_in_left)
+                .setExitAnim(R.anim.slide_out_right)
+                .setPopEnterAnim(R.anim.slide_in_right)
+                .setPopExitAnim(R.anim.slide_out_left)
+                .build()
+            else -> NavOptions.Builder().build()
+        }
 
         when (tabIndex) {
             0 -> navController.navigate(R.id.navigation_tab1, null, navOptions)
