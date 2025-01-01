@@ -18,10 +18,9 @@
     <!-- 검색바 -->
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="140px"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:background="@drawable/rounded_background"
         android:backgroundTint="#F2F3F5"
         android:gravity="center_vertical"
