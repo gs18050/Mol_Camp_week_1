@@ -245,7 +245,10 @@ class MapFragment : Fragment() {
             startActivity(intent)
         }
 
+        // 팝업 배경 제거
         bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
         bottomSheetDialog.show()
     }
 

@@ -28,8 +28,8 @@
         <!-- 검색 아이콘 -->
         <ImageView
             android:id="@+id/search_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:layout_marginLeft="12dp"
             android:contentDescription="Search icon"
             android:src="@drawable/search"
@@ -55,33 +55,33 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
         android:layout_marginEnd="23dp"
         android:layout_marginTop="23dp"
+        android:paddingEnd="23dp"
         android:background="@drawable/rounded_background"
         android:backgroundTint="#F2F3F5"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view">
 
-        <!-- 원형 이미지 -->
+        <!-- 텍스트 영역 -->
+
         <ImageView
             android:id="@+id/item_image"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="65dp"
+            android:layout_height="80dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/circle_background"
+            android:layout_marginStart="23dp"
+            android:layout_marginEnd="10dp"
             android:src="@drawable/pick" />
 
-        <!-- 텍스트 영역 -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="134dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
@@ -110,12 +110,10 @@
         <!-- 버튼 -->
         <Button
             android:id="@+id/imageView3"
-            android:layout_width="160px"
-            android:layout_height="120px"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:backgroundTint="@color/blue"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
             android:text="열기"
             android:textColor="@android:color/white" />
     </LinearLayout>

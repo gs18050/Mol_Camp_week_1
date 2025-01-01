@@ -4,15 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
+    android:layout_margin="40dp"
+    android:padding="16dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/textView3"
@@ -64,7 +65,7 @@
             android:layout_height="250dp"
             android:layout_gravity="center"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp">
+            app:cardElevation="0dp">
 
             <ImageView
                 android:id="@+id/popup_image"
@@ -77,11 +78,11 @@
         <TextView
             android:id="@+id/popup_address"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="38dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="Address"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
