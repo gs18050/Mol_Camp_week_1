@@ -246,6 +246,7 @@ class MapFragment : Fragment() {
         }
 
         bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         bottomSheetDialog.show()
     }
 

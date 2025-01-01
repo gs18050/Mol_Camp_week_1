@@ -4,15 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
+    android:layout_margin="20dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/textView3"
@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="넙죽이가 추천하는"
+            android:fontFamily="sans-serif"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -37,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:text="오늘의 식당은"
+                android:fontFamily="sans-serif"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -47,6 +49,7 @@
                 android:layout_marginEnd="6dp"
                 android:text="Name"
                 android:textFontWeight="900"
+                android:fontFamily="sans-serif-black"
                 android:textSize="22sp" />
 
             <TextView
@@ -54,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="입니다."
+                android:fontFamily="sans-serif"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -81,6 +85,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="Address"
+            android:fontFamily="sans-serif-light"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -92,20 +97,22 @@
             <Button
                 android:id="@+id/popup_close_button"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:background="@drawable/rounded_button"
+                android:backgroundTint="#E8F2FF"
                 android:text="닫기"
-                android:textColor="@color/white" />
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/blue" />
 
             <Button
                 android:id="@+id/popup_call_button"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/blue"
                 android:text="전화 걸기"
+                android:fontFamily="sans-serif-black"
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
