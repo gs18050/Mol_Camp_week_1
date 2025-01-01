@@ -205,7 +205,6 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
             builder.setView(dialogView)
             val dialog = builder.create()
 
-            //팝업창 배경 제거
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
             val handler = android.os.Handler()
