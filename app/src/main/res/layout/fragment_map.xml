@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.map.MapFragment">
 
+    <!-- 검색바 -->
     <com.kakao.vectormap.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
@@ -15,12 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 검색바 -->
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="140px"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:background="@drawable/rounded_background"
         android:backgroundTint="#F2F3F5"
         android:gravity="center_vertical"
