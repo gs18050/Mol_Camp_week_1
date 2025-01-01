@@ -2,8 +2,8 @@
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <foreground>
         <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-            <item android:drawable="@android:color/holo_orange_light" />
-            <item android:drawable="@mipmap/ic_launcher" android:left="15dp" android:right="15dp" android:top="15dp" android:bottom="15dp"/>
+            <item android:drawable="@color/myblue" />
+            <item android:drawable="@mipmap/ic_launcher_v2" android:left="18dp" android:right="18dp" android:top="18dp" android:bottom="18dp"/>
         </layer-list>
     </foreground>
 </adaptive-icon>
