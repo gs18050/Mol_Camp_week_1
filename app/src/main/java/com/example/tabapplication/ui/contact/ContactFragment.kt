@@ -206,6 +206,8 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
             builder.setView(dialogView)
             val dialog = builder.create()
 
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
             val handler = android.os.Handler()
             val interval = 100L
             val duration = 3000L
