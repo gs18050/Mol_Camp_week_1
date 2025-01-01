@@ -165,7 +165,6 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
         adapter = ContactAdapter(dataset, this) { pos, ->
             //val mainActivity = requireActivity() as MainActivity
             sharedViewModel.updateData(pos)
-            sharedViewModel.updateFlag(true)
             sharedViewModel.updateTab(2)
         }
 
@@ -253,7 +252,6 @@ class ContactFragment : Fragment(), ContactAdapter.OnItemClickListener {
 
             imageView.setOnClickListener {
                 sharedViewModel.updateData(currentIndex)
-                sharedViewModel.updateFlag(true)
                 sharedViewModel.updateTab(2)
             }
 

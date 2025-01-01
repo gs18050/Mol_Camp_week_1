@@ -103,7 +103,6 @@ class ImageFragment : Fragment() {
         val imageAdapter = ImageAdapter(imagePaths) { pos, imagePath ->
             //val mainActivity = requireActivity() as MainActivity
             sharedViewModel.updateData(pos)
-            sharedViewModel.updateFlag(true)
             sharedViewModel.updateTab(2)
         }
         val numColumns = 2
@@ -130,6 +129,19 @@ class ImageFragment : Fragment() {
 
         _binding = FragmentImageBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        sharedViewModel.pingSelect.observe(viewLifecycleOwner) { ind ->
+            if (ind != null) {
+                sharedViewModel.isTabChanging.observe(viewLifecycleOwner) { flag ->
+                    Log.d("isTabChanging", flag.toString())
+                    if (flag) {
+                        sharedViewModel.updateData(ind)
+                        sharedViewModel.setTabChanging(false)
+                        sharedViewModel.updateTab(2)
+                    }
+                }
+            }
+        }
 
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)

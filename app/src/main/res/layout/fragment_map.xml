@@ -15,4 +15,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/ping_search"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:background="@null"
+        android:hint="search ping"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:textColor="#8B95A1"
+        android:textColorHint="#8B95A1"
+        android:textSize="16sp" />
+
 </FrameLayout>

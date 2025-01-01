@@ -1,6 +1,7 @@
 package com.example.tabapplication
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,21 +17,27 @@ import androidx.lifecycle.ViewModelProvider
 class SharedViewModel : ViewModel() {
     private val _sharedData = MutableLiveData<Int>()
     val sharedData: LiveData<Int> get() = _sharedData
-    private val _sharedFlag = MutableLiveData<Boolean>()
-    val sharedFlag: LiveData<Boolean> get() = _sharedFlag
     private val _currentTab = MutableLiveData<Int>()
     val currentTab: LiveData<Int> get() = _currentTab
+    private val _pingSelect = MutableLiveData<Int>()
+    val pingSelect: LiveData<Int> get() = _pingSelect
+    private val _isTabChanging = MutableLiveData<Boolean>(false)
+    val isTabChanging: LiveData<Boolean> get() = _isTabChanging
+
+    fun setTabChanging(isChanging: Boolean) {
+        _isTabChanging.value = isChanging
+    }
 
     fun updateData(newData: Int) {
         _sharedData.value = newData
     }
 
-    fun updateFlag(newFlag: Boolean) {
-        _sharedFlag.value = newFlag
-    }
-
     fun updateTab(newTab: Int) {
         _currentTab.value = newTab
+    }
+
+    fun updatePing(newPing: Int) {
+        _pingSelect.value = newPing
     }
 }
 
@@ -48,8 +55,8 @@ class MainActivity : AppCompatActivity() {
 
         sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
         sharedViewModel.updateData(-1)
-        sharedViewModel.updateFlag(true)
         sharedViewModel.updateTab(0)
+        sharedViewModel.setTabChanging(false)
 
         val navView: BottomNavigationView = binding.navView
         navController = findNavController(R.id.nav_host_fragment_activity_main)
@@ -74,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         sharedViewModel.currentTab.observe(this) { tabIndex ->
+            Log.d("currentTab", tabIndex.toString())
             navigateToTab(tabIndex)
         }
     }

@@ -1,6 +1,7 @@
 package com.example.tabapplication.ui.map
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -11,7 +12,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -119,15 +123,36 @@ class MapFragment : Fragment() {
             dataset[i].imagePath = imageResStrs[i]
         }
 
+        val pingSearch = binding.pingSearch
+
+        setupSearchHandler(pingSearch)
+
         return root
     }
 
-    private fun moveToLocation(latitude: Double, longitude: Double) {
-        if (kakaoMap != null) {
-            val location = LatLng.from(latitude, longitude)
-            val cameraUpdate: CameraUpdate = CameraUpdateFactory.newCenterPosition(location, 18)
-            kakaoMap!!.moveCamera(cameraUpdate)
-        }
+    fun setupSearchHandler(editText: EditText) {
+        editText.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: android.view.KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    val query = editText.text.toString().trim()
+                    val filteredList = dataset.filter { item ->
+                        item.Name.contains(query, ignoreCase = true)
+                    }
+                    if (filteredList.size==0) false
+                    else {
+                        Log.d("Searched on Search", dataset[0].Name)
+                        val ind = dataset.indexOf(filteredList[0])
+                        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(editText.windowToken, 0)
+                        sharedViewModel.updatePing(ind)
+                        sharedViewModel.setTabChanging(true)
+                        sharedViewModel.updateTab(1)
+                        true
+                    }
+                }
+                return false
+            }
+        })
     }
 
     private fun getCurrentLocation() {
@@ -245,7 +270,6 @@ class MapFragment : Fragment() {
             startActivity(intent)
         }
 
-        // 팝업 배경 제거
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
